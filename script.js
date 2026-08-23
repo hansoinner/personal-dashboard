@@ -1,7 +1,6 @@
 /* ========================================
    PERSONAL DASHBOARD
-   Stage 6
-   Vanilla JavaScript
+   STAGE 7
 ======================================== */
 
 
@@ -10,61 +9,103 @@
 ======================================== */
 
 // Clock
+
 const currentDate =
-    document.getElementById("currentDate");
+    document.getElementById(
+        "currentDate"
+    );
 
 const currentTime =
-    document.getElementById("currentTime");
+    document.getElementById(
+        "currentTime"
+    );
 
 
 // Task form
+
 const addTaskButton =
-    document.getElementById("addTaskButton");
+    document.getElementById(
+        "addTaskButton"
+    );
 
 const taskForm =
-    document.getElementById("taskForm");
+    document.getElementById(
+        "taskForm"
+    );
 
 const taskInput =
-    document.getElementById("taskInput");
+    document.getElementById(
+        "taskInput"
+    );
 
 const taskCategory =
-    document.getElementById("taskCategory");
+    document.getElementById(
+        "taskCategory"
+    );
 
 const taskPriority =
-    document.getElementById("taskPriority");
+    document.getElementById(
+        "taskPriority"
+    );
 
 const taskDueDate =
-    document.getElementById("taskDueDate");
+    document.getElementById(
+        "taskDueDate"
+    );
 
 const cancelTaskButton =
-    document.getElementById("cancelTaskButton");
+    document.getElementById(
+        "cancelTaskButton"
+    );
 
 
 // Task controls
+
 const taskSearch =
-    document.getElementById("taskSearch");
+    document.getElementById(
+        "taskSearch"
+    );
 
 const taskFilter =
-    document.getElementById("taskFilter");
+    document.getElementById(
+        "taskFilter"
+    );
+
+const taskSort =
+    document.getElementById(
+        "taskSort"
+    );
 
 const taskList =
-    document.getElementById("taskList");
+    document.getElementById(
+        "taskList"
+    );
 
 
 // Statistics
+
 const completedCount =
-    document.getElementById("completedCount");
+    document.getElementById(
+        "completedCount"
+    );
 
 const remainingCount =
-    document.getElementById("remainingCount");
+    document.getElementById(
+        "remainingCount"
+    );
 
 const productivity =
-    document.getElementById("productivity");
+    document.getElementById(
+        "productivity"
+    );
 
 
 // Progress
+
 const progressBar =
-    document.getElementById("progressBar");
+    document.getElementById(
+        "progressBar"
+    );
 
 const progressPercentage =
     document.getElementById(
@@ -73,6 +114,7 @@ const progressPercentage =
 
 
 // Notes
+
 const notesInput =
     document.getElementById(
         "notesInput"
@@ -85,6 +127,7 @@ const clearNotes =
 
 
 // Calendar
+
 const calendarMonth =
     document.getElementById(
         "calendarMonth"
@@ -116,7 +159,8 @@ const selectedDayTasks =
     );
 
 
-// Upcoming tasks
+// Upcoming
+
 const upcomingTasks =
     document.getElementById(
         "upcomingTasks"
@@ -124,6 +168,7 @@ const upcomingTasks =
 
 
 // Mobile navigation
+
 const mobileMenuButton =
     document.getElementById(
         "mobileMenuButton"
@@ -146,6 +191,7 @@ const navigationLinks =
 
 
 // Analytics
+
 const weeklyChart =
     document.getElementById(
         "weeklyChart"
@@ -182,6 +228,19 @@ const scoreCircle =
     );
 
 
+// Toast
+
+const toast =
+    document.getElementById(
+        "toast"
+    );
+
+const toastMessage =
+    document.getElementById(
+        "toastMessage"
+    );
+
+
 /* ========================================
    STATE
 ======================================== */
@@ -194,7 +253,8 @@ let tasks =
     ) || [];
 
 
-let editingTaskId = null;
+let editingTaskId =
+    null;
 
 
 let calendarDate =
@@ -205,6 +265,23 @@ let selectedDate =
     formatDateKey(
         new Date()
     );
+
+
+let sortPreference =
+    localStorage.getItem(
+        "dashboardTaskSort"
+    ) || "created";
+
+
+let toastTimeout;
+
+
+/* ========================================
+   RESTORE SETTINGS
+======================================== */
+
+taskSort.value =
+    sortPreference;
 
 
 /* ========================================
@@ -298,10 +375,12 @@ function saveTasks() {
 
 
 /* ========================================
-   FORMAT DATE
+   DATE FORMAT
 ======================================== */
 
-function formatDate(dateString) {
+function formatDate(
+    dateString
+) {
 
     if (!dateString) {
 
@@ -328,7 +407,7 @@ function formatDate(dateString) {
 
 
 /* ========================================
-   CHECK OVERDUE
+   OVERDUE
 ======================================== */
 
 function isOverdue(task) {
@@ -388,7 +467,7 @@ function capitalize(value) {
 
 
 /* ========================================
-   FILTER TASKS
+   FILTER + SORT
 ======================================== */
 
 function getFilteredTasks() {
@@ -403,59 +482,249 @@ function getFilteredTasks() {
         taskFilter.value;
 
 
-    return tasks.filter(
-        task => {
+    let filtered =
+        tasks.filter(
+            task => {
 
-            const matchesSearch =
-                task.title
-                    .toLowerCase()
-                    .includes(
-                        searchTerm
-                    );
-
-
-            let matchesFilter =
-                true;
+                const matchesSearch =
+                    task.title
+                        .toLowerCase()
+                        .includes(
+                            searchTerm
+                        );
 
 
-            if (
-                filter === "active"
-            ) {
+                let matchesFilter =
+                    true;
 
-                matchesFilter =
-                    !task.completed;
+
+                if (
+                    filter === "active"
+                ) {
+
+                    matchesFilter =
+                        !task.completed;
+
+                }
+
+
+                if (
+                    filter === "completed"
+                ) {
+
+                    matchesFilter =
+                        task.completed;
+
+                }
+
+
+                if (
+                    filter === "high"
+                ) {
+
+                    matchesFilter =
+                        task.priority ===
+                        "high";
+
+                }
+
+
+                return (
+                    matchesSearch &&
+                    matchesFilter
+                );
 
             }
+        );
 
 
-            if (
-                filter === "completed"
-            ) {
+    return sortTasks(
+        filtered,
+        sortPreference
+    );
 
-                matchesFilter =
-                    task.completed;
-
-            }
+}
 
 
-            if (
-                filter === "high"
-            ) {
+/* ========================================
+   SORT TASKS
+======================================== */
 
-                matchesFilter =
-                    task.priority ===
-                    "high";
+function sortTasks(
+    taskArray,
+    sortType
+) {
 
-            }
+    const sorted =
+        [...taskArray];
 
 
-            return (
-                matchesSearch &&
-                matchesFilter
+    switch (
+        sortType
+    ) {
+
+        case "oldest":
+
+            return sorted.sort(
+                (
+                    a,
+                    b
+                ) =>
+                    getTaskTime(a) -
+                    getTaskTime(b)
             );
 
-        }
-    );
+
+        case "priority":
+
+            const priorityOrder = {
+
+                high: 1,
+
+                medium: 2,
+
+                low: 3
+
+            };
+
+
+            return sorted.sort(
+                (
+                    a,
+                    b
+                ) =>
+                    priorityOrder[
+                        a.priority
+                    ] -
+                    priorityOrder[
+                        b.priority
+                    ]
+            );
+
+
+        case "dueDate":
+
+            return sorted.sort(
+                (
+                    a,
+                    b
+                ) => {
+
+                    if (
+                        !a.dueDate &&
+                        !b.dueDate
+                    ) {
+
+                        return 0;
+
+                    }
+
+
+                    if (
+                        !a.dueDate
+                    ) {
+
+                        return 1;
+
+                    }
+
+
+                    if (
+                        !b.dueDate
+                    ) {
+
+                        return -1;
+
+                    }
+
+
+                    return a.dueDate.localeCompare(
+                        b.dueDate
+                    );
+
+                }
+            );
+
+
+        case "alphabetical":
+
+            return sorted.sort(
+                (
+                    a,
+                    b
+                ) =>
+                    a.title.localeCompare(
+                        b.title
+                    )
+            );
+
+
+        case "completed":
+
+            return sorted.sort(
+                (
+                    a,
+                    b
+                ) =>
+                    Number(
+                        a.completed
+                    ) -
+                    Number(
+                        b.completed
+                    )
+            );
+
+
+        case "created":
+
+        default:
+
+            return sorted.sort(
+                (
+                    a,
+                    b
+                ) =>
+                    getTaskTime(b) -
+                    getTaskTime(a)
+            );
+
+    }
+
+}
+
+
+/* ========================================
+   TASK TIME
+======================================== */
+
+function getTaskTime(task) {
+
+    if (
+        task.createdAt
+    ) {
+
+        return task.createdAt;
+
+    }
+
+
+    /*
+       Backwards compatibility for
+       Stage 6 tasks that used Date.now()
+       as their ID.
+    */
+
+    if (
+        typeof task.id ===
+        "number"
+    ) {
+
+        return task.id;
+
+    }
+
+
+    return 0;
 
 }
 
@@ -466,7 +735,8 @@ function getFilteredTasks() {
 
 function renderTasks() {
 
-    taskList.innerHTML = "";
+    taskList.innerHTML =
+        "";
 
 
     const filteredTasks =
@@ -487,19 +757,10 @@ function renderTasks() {
             "task-empty-state";
 
 
-        if (
+        emptyState.textContent =
             tasks.length === 0
-        ) {
-
-            emptyState.textContent =
-                "No tasks yet. Add your first task.";
-
-        } else {
-
-            emptyState.textContent =
-                "No tasks match your search or filter.";
-
-        }
+                ? "No tasks yet. Add your first task."
+                : "No tasks match your search or filter.";
 
 
         taskList.appendChild(
@@ -663,7 +924,9 @@ function renderTasks() {
 
 
             priority.textContent =
-                `${capitalize(task.priority)} priority`;
+                `${capitalize(
+                    task.priority
+                )} priority`;
 
 
             meta.appendChild(
@@ -700,8 +963,12 @@ function renderTasks() {
 
                 dueDate.textContent =
                     isOverdue(task)
-                        ? `Overdue · ${formatDate(task.dueDate)}`
-                        : `Due · ${formatDate(task.dueDate)}`;
+                        ? `Overdue · ${formatDate(
+                            task.dueDate
+                        )}`
+                        : `Due · ${formatDate(
+                            task.dueDate
+                        )}`;
 
 
                 meta.appendChild(
@@ -819,7 +1086,7 @@ function renderTasks() {
             );
 
 
-            /* Build task */
+            /* Build */
 
             li.appendChild(
                 checkbox
@@ -850,11 +1117,17 @@ function renderTasks() {
    CREATE TASK
 ======================================== */
 
-function createTask(title) {
+function createTask(
+    title
+) {
 
     const task = {
 
-        id: Date.now(),
+        id:
+            crypto.randomUUID(),
+
+        createdAt:
+            Date.now(),
 
         title: title,
 
@@ -884,6 +1157,11 @@ function createTask(title) {
 
 
     refreshDashboard();
+
+
+    showToast(
+        "Task added successfully."
+    );
 
 }
 
@@ -934,6 +1212,11 @@ function updateTask(
 
 
     refreshDashboard();
+
+
+    showToast(
+        "Task updated successfully."
+    );
 
 }
 
@@ -1014,10 +1297,17 @@ function editTask(id) {
 
 function deleteTask(id) {
 
+    const task =
+        tasks.find(
+            item =>
+                item.id === id
+        );
+
+
     tasks =
         tasks.filter(
-            task =>
-                task.id !== id
+            item =>
+                item.id !== id
         );
 
 
@@ -1025,6 +1315,13 @@ function deleteTask(id) {
 
 
     refreshDashboard();
+
+
+    showToast(
+        task
+            ? `"${task.title}" deleted.`
+            : "Task deleted."
+    );
 
 }
 
@@ -1058,73 +1355,14 @@ function toggleTask(id) {
 
     refreshDashboard();
 
-}
 
-
-/* ========================================
-   REFRESH DASHBOARD
-======================================== */
-
-function refreshDashboard() {
-
-    renderTasks();
-
-    updateStats();
-
-    renderCalendar();
-
-    renderSelectedDayTasks();
-
-    renderUpcomingTasks();
-
-    renderAnalytics();
+    showToast(
+        task.completed
+            ? "Task completed! ✓"
+            : "Task marked as active."
+    );
 
 }
-
-
-/* ========================================
-   TASK FORM SUBMIT
-======================================== */
-
-taskForm.addEventListener(
-    "submit",
-    event => {
-
-        event.preventDefault();
-
-
-        const title =
-            taskInput.value.trim();
-
-
-        if (!title) {
-
-            taskInput.focus();
-
-            return;
-
-        }
-
-
-        if (
-            editingTaskId !== null
-        ) {
-
-            updateTask(
-                editingTaskId,
-                title
-            );
-
-        } else {
-
-            createTask(
-                title
-            );
-
-        }
-
-    }
-);
 
 
 /* ========================================
@@ -1170,6 +1408,72 @@ function resetTaskForm() {
 
 
 /* ========================================
+   REFRESH DASHBOARD
+======================================== */
+
+function refreshDashboard() {
+
+    renderTasks();
+
+    updateStats();
+
+    renderCalendar();
+
+    renderSelectedDayTasks();
+
+    renderUpcomingTasks();
+
+    renderAnalytics();
+
+}
+
+
+/* ========================================
+   FORM SUBMIT
+======================================== */
+
+taskForm.addEventListener(
+    "submit",
+    event => {
+
+        event.preventDefault();
+
+
+        const title =
+            taskInput.value.trim();
+
+
+        if (!title) {
+
+            taskInput.focus();
+
+            return;
+
+        }
+
+
+        if (
+            editingTaskId !== null
+        ) {
+
+            updateTask(
+                editingTaskId,
+                title
+            );
+
+        } else {
+
+            createTask(
+                title
+            );
+
+        }
+
+    }
+);
+
+
+/* ========================================
    ADD TASK BUTTON
 ======================================== */
 
@@ -1202,16 +1506,12 @@ addTaskButton.addEventListener(
 
 
 /* ========================================
-   CANCEL TASK
+   CANCEL
 ======================================== */
 
 cancelTaskButton.addEventListener(
     "click",
-    () => {
-
-        resetTaskForm();
-
-    }
+    resetTaskForm
 );
 
 
@@ -1236,7 +1536,36 @@ taskFilter.addEventListener(
 
 
 /* ========================================
-   UPDATE STATS
+   SORT
+======================================== */
+
+taskSort.addEventListener(
+    "change",
+    () => {
+
+        sortPreference =
+            taskSort.value;
+
+
+        localStorage.setItem(
+            "dashboardTaskSort",
+            sortPreference
+        );
+
+
+        renderTasks();
+
+
+        showToast(
+            "Task sorting updated."
+        );
+
+    }
+);
+
+
+/* ========================================
+   STATISTICS
 ======================================== */
 
 function updateStats() {
@@ -1324,6 +1653,11 @@ clearNotes.addEventListener(
             "dashboardNotes"
         );
 
+
+        showToast(
+            "Notes cleared."
+        );
+
     }
 );
 
@@ -1372,8 +1706,6 @@ function renderCalendar() {
         ).getDate();
 
 
-    /* Empty days */
-
     for (
         let i = 0;
         i < firstDay;
@@ -1396,8 +1728,6 @@ function renderCalendar() {
 
     }
 
-
-    /* Actual days */
 
     for (
         let day = 1;
@@ -1433,8 +1763,6 @@ function renderCalendar() {
             "calendar-day";
 
 
-        /* Today */
-
         if (
             dateKey ===
             formatDateKey(
@@ -1448,8 +1776,6 @@ function renderCalendar() {
 
         }
 
-
-        /* Selected */
 
         if (
             dateKey ===
@@ -1481,8 +1807,6 @@ function renderCalendar() {
             number
         );
 
-
-        /* Tasks */
 
         const dateTasks =
             tasks.filter(
@@ -1564,7 +1888,7 @@ function renderCalendar() {
 
 
 /* ========================================
-   SELECTED DAY TASKS
+   SELECTED DAY
 ======================================== */
 
 function renderSelectedDayTasks() {
@@ -1710,7 +2034,7 @@ function renderSelectedDayTasks() {
 
 
 /* ========================================
-   UPCOMING TASKS
+   UPCOMING
 ======================================== */
 
 function renderUpcomingTasks() {
@@ -1809,8 +2133,12 @@ function renderUpcomingTasks() {
 
             date.textContent =
                 isOverdue(task)
-                    ? `Overdue · ${formatDate(task.dueDate)}`
-                    : formatDate(task.dueDate);
+                    ? `Overdue · ${formatDate(
+                        task.dueDate
+                    )}`
+                    : formatDate(
+                        task.dueDate
+                    );
 
 
             const title =
@@ -1838,7 +2166,9 @@ function renderUpcomingTasks() {
 
 
             meta.textContent =
-                `${task.category} · ${capitalize(task.priority)} priority`;
+                `${task.category} · ${capitalize(
+                    task.priority
+                )} priority`;
 
 
             item.appendChild(
@@ -2097,7 +2427,7 @@ function renderAnalytics() {
 
 
 /* ========================================
-   WEEKLY ACTIVITY
+   WEEKLY CHART
 ======================================== */
 
 function renderWeeklyChart() {
@@ -2243,10 +2573,6 @@ function renderWeeklyChart() {
                 `${height}%`;
 
 
-            bar.title =
-                `${values[index]} completed`;
-
-
             wrapper.appendChild(
                 bar
             );
@@ -2297,7 +2623,7 @@ function renderWeeklyChart() {
 
 
 /* ========================================
-   CATEGORY BREAKDOWN
+   CATEGORY CHART
 ======================================== */
 
 function renderCategoryChart() {
@@ -2468,7 +2794,7 @@ function renderCategoryChart() {
 
 
 /* ========================================
-   PRIORITY BREAKDOWN
+   PRIORITY CHART
 ======================================== */
 
 function renderPriorityChart() {
@@ -2711,7 +3037,7 @@ function renderProductivityScore() {
 
 
 /* ========================================
-   ANALYTICS EMPTY STATE
+   ANALYTICS EMPTY
 ======================================== */
 
 function showAnalyticsEmpty(
@@ -2745,17 +3071,147 @@ function showAnalyticsEmpty(
 
 
 /* ========================================
+   TOAST
+======================================== */
+
+function showToast(
+    message,
+    type = "success"
+) {
+
+    clearTimeout(
+        toastTimeout
+    );
+
+
+    toastMessage.textContent =
+        message;
+
+
+    toast.className =
+        "toast";
+
+
+    toast.classList.add(
+        type
+    );
+
+
+    requestAnimationFrame(
+        () => {
+
+            toast.classList.add(
+                "show"
+            );
+
+        }
+    );
+
+
+    toastTimeout =
+        setTimeout(
+            () => {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            2500
+        );
+
+}
+
+
+/* ========================================
+   KEYBOARD SHORTCUTS
+======================================== */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        const activeElement =
+            document.activeElement;
+
+
+        const isTyping =
+            activeElement.tagName ===
+                "INPUT" ||
+            activeElement.tagName ===
+                "TEXTAREA" ||
+            activeElement.tagName ===
+                "SELECT";
+
+
+        if (
+            isTyping
+        ) {
+
+            return;
+
+        }
+
+
+        /* N = New task */
+
+        if (
+            event.key.toLowerCase() ===
+            "n"
+        ) {
+
+            event.preventDefault();
+
+
+            taskForm.classList.remove(
+                "hidden"
+            );
+
+
+            taskInput.focus();
+
+        }
+
+
+        /* / = Search */
+
+        if (
+            event.key === "/"
+        ) {
+
+            event.preventDefault();
+
+
+            taskSearch.focus();
+
+        }
+
+
+        /* Escape */
+
+        if (
+            event.key ===
+            "Escape"
+        ) {
+
+            if (
+                !taskForm.classList.contains(
+                    "hidden"
+                )
+            ) {
+
+                resetTaskForm();
+
+            }
+
+        }
+
+    }
+);
+
+
+/* ========================================
    INITIALIZE
 ======================================== */
 
-renderTasks();
-
-updateStats();
-
-renderCalendar();
-
-renderSelectedDayTasks();
-
-renderUpcomingTasks();
-
-renderAnalytics();
+refreshDashboard();
