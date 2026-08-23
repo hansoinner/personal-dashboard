@@ -30,8 +30,23 @@ const clearNotes =
 ================================ */
 
 let tasks =
-    JSON.parse(localStorage.getItem("dashboardTasks")) || [];
-
+    JSON.parse(localStorage.getItem("dashboardTasks")) || [
+        {
+            id: 1,
+            title: "Finish dashboard layout",
+            completed: true
+        },
+        {
+            id: 2,
+            title: "Build task management system",
+            completed: false
+        },
+        {
+            id: 3,
+            title: "Push project to GitHub",
+            completed: false
+        }
+    ];
 
 /* ================================
    CLOCK
@@ -196,8 +211,9 @@ taskForm.addEventListener(
             taskInput.value.trim();
 
         if (!title) {
-            return;
-        }
+    taskInput.focus();
+    return;
+}
 
 
         const task = {
