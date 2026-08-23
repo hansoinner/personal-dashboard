@@ -1,7 +1,15 @@
 /* ========================================
+   PERSONAL DASHBOARD
+   Stage 6
+   Vanilla JavaScript
+======================================== */
+
+
+/* ========================================
    ELEMENTS
 ======================================== */
 
+// Clock
 const currentDate =
     document.getElementById("currentDate");
 
@@ -9,6 +17,7 @@ const currentTime =
     document.getElementById("currentTime");
 
 
+// Task form
 const addTaskButton =
     document.getElementById("addTaskButton");
 
@@ -28,11 +37,10 @@ const taskDueDate =
     document.getElementById("taskDueDate");
 
 const cancelTaskButton =
-    document.getElementById(
-        "cancelTaskButton"
-    );
+    document.getElementById("cancelTaskButton");
 
 
+// Task controls
 const taskSearch =
     document.getElementById("taskSearch");
 
@@ -43,26 +51,20 @@ const taskList =
     document.getElementById("taskList");
 
 
+// Statistics
 const completedCount =
-    document.getElementById(
-        "completedCount"
-    );
+    document.getElementById("completedCount");
 
 const remainingCount =
-    document.getElementById(
-        "remainingCount"
-    );
+    document.getElementById("remainingCount");
 
 const productivity =
-    document.getElementById(
-        "productivity"
-    );
+    document.getElementById("productivity");
 
 
+// Progress
 const progressBar =
-    document.getElementById(
-        "progressBar"
-    );
+    document.getElementById("progressBar");
 
 const progressPercentage =
     document.getElementById(
@@ -70,6 +72,7 @@ const progressPercentage =
     );
 
 
+// Notes
 const notesInput =
     document.getElementById(
         "notesInput"
@@ -81,10 +84,7 @@ const clearNotes =
     );
 
 
-/* ========================================
-   CALENDAR ELEMENTS
-======================================== */
-
+// Calendar
 const calendarMonth =
     document.getElementById(
         "calendarMonth"
@@ -115,16 +115,15 @@ const selectedDayTasks =
         "selectedDayTasks"
     );
 
+
+// Upcoming tasks
 const upcomingTasks =
     document.getElementById(
         "upcomingTasks"
     );
 
 
-/* ========================================
-   MOBILE NAVIGATION
-======================================== */
-
+// Mobile navigation
 const mobileMenuButton =
     document.getElementById(
         "mobileMenuButton"
@@ -143,6 +142,43 @@ const sidebarOverlay =
 const navigationLinks =
     document.querySelectorAll(
         ".nav-link"
+    );
+
+
+// Analytics
+const weeklyChart =
+    document.getElementById(
+        "weeklyChart"
+    );
+
+const weeklyCompleted =
+    document.getElementById(
+        "weeklyCompleted"
+    );
+
+const categoryChart =
+    document.getElementById(
+        "categoryChart"
+    );
+
+const priorityChart =
+    document.getElementById(
+        "priorityChart"
+    );
+
+const scoreValue =
+    document.getElementById(
+        "scoreValue"
+    );
+
+const scoreMessage =
+    document.getElementById(
+        "scoreMessage"
+    );
+
+const scoreCircle =
+    document.querySelector(
+        ".score-circle"
     );
 
 
@@ -336,10 +372,17 @@ function isOverdue(task) {
 
 function capitalize(value) {
 
-    return value
-        .charAt(0)
-        .toUpperCase() +
-        value.slice(1);
+    if (!value) {
+
+        return "";
+
+    }
+
+
+    return (
+        value.charAt(0).toUpperCase() +
+        value.slice(1)
+    );
 
 }
 
@@ -672,6 +715,7 @@ function renderTasks() {
                 titleRow
             );
 
+
             content.appendChild(
                 meta
             );
@@ -769,20 +813,23 @@ function renderTasks() {
                 editButton
             );
 
+
             actions.appendChild(
                 deleteButton
             );
 
 
-            /* Build */
+            /* Build task */
 
             li.appendChild(
                 checkbox
             );
 
+
             li.appendChild(
                 content
             );
+
 
             li.appendChild(
                 actions
@@ -836,15 +883,7 @@ function createTask(title) {
     resetTaskForm();
 
 
-    renderTasks();
-
-    updateStats();
-
-    renderCalendar();
-
-    renderSelectedDayTasks();
-
-    renderUpcomingTasks();
+    refreshDashboard();
 
 }
 
@@ -894,15 +933,7 @@ function updateTask(
     resetTaskForm();
 
 
-    renderTasks();
-
-    updateStats();
-
-    renderCalendar();
-
-    renderSelectedDayTasks();
-
-    renderUpcomingTasks();
+    refreshDashboard();
 
 }
 
@@ -993,15 +1024,7 @@ function deleteTask(id) {
     saveTasks();
 
 
-    renderTasks();
-
-    updateStats();
-
-    renderCalendar();
-
-    renderSelectedDayTasks();
-
-    renderUpcomingTasks();
+    refreshDashboard();
 
 }
 
@@ -1033,6 +1056,17 @@ function toggleTask(id) {
     saveTasks();
 
 
+    refreshDashboard();
+
+}
+
+
+/* ========================================
+   REFRESH DASHBOARD
+======================================== */
+
+function refreshDashboard() {
+
     renderTasks();
 
     updateStats();
@@ -1042,6 +1076,8 @@ function toggleTask(id) {
     renderSelectedDayTasks();
 
     renderUpcomingTasks();
+
+    renderAnalytics();
 
 }
 
@@ -1224,8 +1260,10 @@ function updateStats() {
         total === 0
             ? 0
             : Math.round(
-                (completed / total) *
-                100
+                (
+                    completed /
+                    total
+                ) * 100
             );
 
 
@@ -1334,7 +1372,7 @@ function renderCalendar() {
         ).getDate();
 
 
-    /* Empty cells */
+    /* Empty days */
 
     for (
         let i = 0;
@@ -1359,7 +1397,7 @@ function renderCalendar() {
     }
 
 
-    /* Days */
+    /* Actual days */
 
     for (
         let day = 1;
@@ -1689,7 +1727,10 @@ function renderUpcomingTasks() {
                     !task.completed
             )
             .sort(
-                (a, b) =>
+                (
+                    a,
+                    b
+                ) =>
                     a.dueDate.localeCompare(
                         b.dueDate
                     )
@@ -1882,7 +1923,7 @@ todayButton.addEventListener(
 
 
 /* ========================================
-   MOBILE MENU
+   MOBILE NAVIGATION
 ======================================== */
 
 function openMobileMenu() {
@@ -1953,10 +1994,6 @@ function closeMobileMenu() {
 }
 
 
-/* ========================================
-   MOBILE MENU TOGGLE
-======================================== */
-
 mobileMenuButton.addEventListener(
     "click",
     () => {
@@ -1981,19 +2018,11 @@ mobileMenuButton.addEventListener(
 );
 
 
-/* ========================================
-   OVERLAY
-======================================== */
-
 sidebarOverlay.addEventListener(
     "click",
     closeMobileMenu
 );
 
-
-/* ========================================
-   NAVIGATION
-======================================== */
 
 navigationLinks.forEach(
     link => {
@@ -2051,6 +2080,671 @@ document.addEventListener(
 
 
 /* ========================================
+   ANALYTICS
+======================================== */
+
+function renderAnalytics() {
+
+    renderWeeklyChart();
+
+    renderCategoryChart();
+
+    renderPriorityChart();
+
+    renderProductivityScore();
+
+}
+
+
+/* ========================================
+   WEEKLY ACTIVITY
+======================================== */
+
+function renderWeeklyChart() {
+
+    weeklyChart.innerHTML =
+        "";
+
+
+    const today =
+        new Date();
+
+
+    const days = [];
+
+
+    for (
+        let i = 6;
+        i >= 0;
+        i--
+    ) {
+
+        const date =
+            new Date(
+                today
+            );
+
+
+        date.setDate(
+            today.getDate() - i
+        );
+
+
+        days.push(
+            date
+        );
+
+    }
+
+
+    const values =
+        days.map(
+            date => {
+
+                const dateKey =
+                    formatDateKey(
+                        date
+                    );
+
+
+                return tasks.filter(
+                    task =>
+                        task.dueDate ===
+                        dateKey &&
+                        task.completed
+                ).length;
+
+            }
+        );
+
+
+    const totalCompleted =
+        values.reduce(
+            (
+                total,
+                value
+            ) =>
+                total + value,
+            0
+        );
+
+
+    weeklyCompleted.textContent =
+        totalCompleted;
+
+
+    const maxValue =
+        Math.max(
+            ...values,
+            1
+        );
+
+
+    days.forEach(
+        (
+            date,
+            index
+        ) => {
+
+            const column =
+                document.createElement(
+                    "div"
+                );
+
+
+            column.className =
+                "chart-column";
+
+
+            const value =
+                document.createElement(
+                    "span"
+                );
+
+
+            value.className =
+                "chart-value";
+
+
+            value.textContent =
+                values[index];
+
+
+            const wrapper =
+                document.createElement(
+                    "div"
+                );
+
+
+            wrapper.className =
+                "chart-bar-wrapper";
+
+
+            const bar =
+                document.createElement(
+                    "div"
+                );
+
+
+            bar.className =
+                "chart-bar";
+
+
+            const height =
+                values[index] === 0
+                    ? 3
+                    : (
+                        values[index] /
+                        maxValue
+                    ) * 100;
+
+
+            bar.style.height =
+                `${height}%`;
+
+
+            bar.title =
+                `${values[index]} completed`;
+
+
+            wrapper.appendChild(
+                bar
+            );
+
+
+            const label =
+                document.createElement(
+                    "span"
+                );
+
+
+            label.className =
+                "chart-label";
+
+
+            label.textContent =
+                date.toLocaleDateString(
+                    "en-US",
+                    {
+                        weekday: "short"
+                    }
+                );
+
+
+            column.appendChild(
+                value
+            );
+
+
+            column.appendChild(
+                wrapper
+            );
+
+
+            column.appendChild(
+                label
+            );
+
+
+            weeklyChart.appendChild(
+                column
+            );
+
+        }
+    );
+
+}
+
+
+/* ========================================
+   CATEGORY BREAKDOWN
+======================================== */
+
+function renderCategoryChart() {
+
+    categoryChart.innerHTML =
+        "";
+
+
+    const categories = {};
+
+
+    tasks.forEach(
+        task => {
+
+            if (
+                !categories[
+                    task.category
+                ]
+            ) {
+
+                categories[
+                    task.category
+                ] = 0;
+
+            }
+
+
+            categories[
+                task.category
+            ]++;
+
+        }
+    );
+
+
+    const entries =
+        Object.entries(
+            categories
+        );
+
+
+    if (
+        entries.length === 0
+    ) {
+
+        showAnalyticsEmpty(
+            categoryChart,
+            "No category data yet."
+        );
+
+
+        return;
+
+    }
+
+
+    const maxValue =
+        Math.max(
+            ...entries.map(
+                entry =>
+                    entry[1]
+            ),
+            1
+        );
+
+
+    entries.forEach(
+        (
+            [
+                category,
+                count
+            ]
+        ) => {
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+
+            row.className =
+                "category-row";
+
+
+            const name =
+                document.createElement(
+                    "span"
+                );
+
+
+            name.className =
+                "category-name";
+
+
+            name.textContent =
+                category;
+
+
+            const track =
+                document.createElement(
+                    "div"
+                );
+
+
+            track.className =
+                "category-track";
+
+
+            const fill =
+                document.createElement(
+                    "div"
+                );
+
+
+            fill.className =
+                "category-fill";
+
+
+            fill.style.width =
+                `${(
+                    count /
+                    maxValue
+                ) * 100}%`;
+
+
+            track.appendChild(
+                fill
+            );
+
+
+            const countElement =
+                document.createElement(
+                    "span"
+                );
+
+
+            countElement.className =
+                "category-count";
+
+
+            countElement.textContent =
+                count;
+
+
+            row.appendChild(
+                name
+            );
+
+
+            row.appendChild(
+                track
+            );
+
+
+            row.appendChild(
+                countElement
+            );
+
+
+            categoryChart.appendChild(
+                row
+            );
+
+        }
+    );
+
+}
+
+
+/* ========================================
+   PRIORITY BREAKDOWN
+======================================== */
+
+function renderPriorityChart() {
+
+    priorityChart.innerHTML =
+        "";
+
+
+    const priorities = {
+
+        high: 0,
+
+        medium: 0,
+
+        low: 0
+
+    };
+
+
+    tasks.forEach(
+        task => {
+
+            if (
+                priorities[
+                    task.priority
+                ] !== undefined
+            ) {
+
+                priorities[
+                    task.priority
+                ]++;
+
+            }
+
+        }
+    );
+
+
+    const maxValue =
+        Math.max(
+            ...Object.values(
+                priorities
+            ),
+            1
+        );
+
+
+    Object.entries(
+        priorities
+    ).forEach(
+        (
+            [
+                priority,
+                count
+            ]
+        ) => {
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+
+            row.className =
+                "priority-row";
+
+
+            const name =
+                document.createElement(
+                    "span"
+                );
+
+
+            name.className =
+                "priority-name";
+
+
+            name.textContent =
+                capitalize(
+                    priority
+                );
+
+
+            const track =
+                document.createElement(
+                    "div"
+                );
+
+
+            track.className =
+                "priority-track";
+
+
+            const fill =
+                document.createElement(
+                    "div"
+                );
+
+
+            fill.className =
+                `priority-fill ${priority}`;
+
+
+            fill.style.width =
+                `${(
+                    count /
+                    maxValue
+                ) * 100}%`;
+
+
+            track.appendChild(
+                fill
+            );
+
+
+            const countElement =
+                document.createElement(
+                    "span"
+                );
+
+
+            countElement.className =
+                "priority-count";
+
+
+            countElement.textContent =
+                count;
+
+
+            row.appendChild(
+                name
+            );
+
+
+            row.appendChild(
+                track
+            );
+
+
+            row.appendChild(
+                countElement
+            );
+
+
+            priorityChart.appendChild(
+                row
+            );
+
+        }
+    );
+
+}
+
+
+/* ========================================
+   PRODUCTIVITY SCORE
+======================================== */
+
+function renderProductivityScore() {
+
+    const total =
+        tasks.length;
+
+
+    const completed =
+        tasks.filter(
+            task =>
+                task.completed
+        ).length;
+
+
+    const percentage =
+        total === 0
+            ? 0
+            : Math.round(
+                (
+                    completed /
+                    total
+                ) * 100
+            );
+
+
+    scoreValue.textContent =
+        `${percentage}%`;
+
+
+    const degrees =
+        percentage * 3.6;
+
+
+    scoreCircle.style.background =
+        `conic-gradient(
+            var(--primary)
+            0deg,
+            var(--primary)
+            ${degrees}deg,
+            #e9ebf0
+            ${degrees}deg,
+            #e9ebf0
+            360deg
+        )`;
+
+
+    if (
+        total === 0
+    ) {
+
+        scoreMessage.textContent =
+            "Start completing tasks to build your score.";
+
+    } else if (
+        percentage >= 80
+    ) {
+
+        scoreMessage.textContent =
+            "Excellent work. You're operating at a high level.";
+
+    } else if (
+        percentage >= 60
+    ) {
+
+        scoreMessage.textContent =
+            "Great progress. Keep pushing toward your goals.";
+
+    } else if (
+        percentage >= 40
+    ) {
+
+        scoreMessage.textContent =
+            "You're making progress. Stay consistent.";
+
+    } else {
+
+        scoreMessage.textContent =
+            "Keep going. Small completed tasks add up.";
+
+    }
+
+}
+
+
+/* ========================================
+   ANALYTICS EMPTY STATE
+======================================== */
+
+function showAnalyticsEmpty(
+    container,
+    message
+) {
+
+    const empty =
+        document.createElement(
+            "p"
+        );
+
+
+    empty.textContent =
+        message;
+
+
+    empty.style.color =
+        "var(--text-muted)";
+
+
+    empty.style.fontSize =
+        "11px";
+
+
+    container.appendChild(
+        empty
+    );
+
+}
+
+
+/* ========================================
    INITIALIZE
 ======================================== */
 
@@ -2063,3 +2757,5 @@ renderCalendar();
 renderSelectedDayTasks();
 
 renderUpcomingTasks();
+
+renderAnalytics();
