@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="A modern personal productivity dashboard."
+    >
+
+    <title>Personal Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <div class="logo">
+                <span class="logo-icon">◆</span>
+                <span>Dashboard</span>
+            </div>
+
+            <nav class="navigation">
+
+                <a href="#dashboard" class="nav-link active">
+                    <span>⌂</span>
+                    Dashboard
+                </a>
+
+                <a href="#tasks" class="nav-link">
+                    <span>✓</span>
+                    Tasks
+                </a>
+
+                <a href="#notes" class="nav-link">
+                    <span>📝</span>
+                    Notes
+                </a>
+
+                <a href="#analytics" class="nav-link">
+                    <span>▥</span>
+                    Analytics
+                </a>
+
+            </nav>
+
+            <div class="sidebar-bottom">
+
+                <a href="#settings" class="nav-link">
+                    <span>⚙</span>
+                    Settings
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- Header -->
+            <header class="topbar">
+
+                <div>
+                    <p class="eyebrow">PERSONAL DASHBOARD</p>
+
+                    <h1>
+                        Good morning 👋
+                    </h1>
+
+                    <p class="subtitle">
+                        Here's what's happening today.
+                    </p>
+                </div>
+
+                <div class="topbar-right">
+
+                    <div class="date-time">
+
+                        <span id="currentDate">
+                            Monday, January 1
+                        </span>
+
+                        <strong id="currentTime">
+                            00:00:00
+                        </strong>
+
+                    </div>
+
+                    <div class="avatar">
+                        SG
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- Dashboard -->
+            <section id="dashboard" class="dashboard">
+
+                <!-- Statistics -->
+                <div class="stats-grid">
+
+                    <article class="stat-card">
+
+                        <div class="stat-icon">
+                            ✓
+                        </div>
+
+                        <div>
+                            <p>Completed</p>
+                            <h2 id="completedCount">0</h2>
+                        </div>
+
+                    </article>
+
+
+                    <article class="stat-card">
+
+                        <div class="stat-icon">
+                            ○
+                        </div>
+
+                        <div>
+                            <p>Remaining</p>
+                            <h2 id="remainingCount">0</h2>
+                        </div>
+
+                    </article>
+
+
+                    <article class="stat-card">
+
+                        <div class="stat-icon">
+                            %
+                        </div>
+
+                        <div>
+                            <p>Productivity</p>
+                            <h2 id="productivity">0%</h2>
+                        </div>
+
+                    </article>
+
+
+                    <article class="stat-card">
+
+                        <div class="stat-icon">
+                            🔥
+                        </div>
+
+                        <div>
+                            <p>Day Streak</p>
+                            <h2>7</h2>
+                        </div>
+
+                    </article>
+
+                </div>
+
+
+                <!-- Main Grid -->
+                <div class="dashboard-grid">
+
+
+                    <!-- Tasks -->
+                    <section id="tasks" class="card tasks-card">
+
+                        <div class="card-header">
+
+                            <div>
+                                <p class="eyebrow">PRODUCTIVITY</p>
+                                <h2>Today's Tasks</h2>
+                            </div>
+
+                            <button
+                                id="addTaskButton"
+                                class="button"
+                            >
+                                + Add Task
+                            </button>
+
+                        </div>
+
+
+                        <form
+                            id="taskForm"
+                            class="task-form hidden"
+                        >
+
+                            <input
+                                type="text"
+                                id="taskInput"
+                                placeholder="What needs to be done?"
+                                autocomplete="off"
+                            >
+
+                            <button type="submit">
+                                Add
+                            </button>
+
+                        </form>
+
+
+                        <ul
+                            id="taskList"
+                            class="task-list"
+                        >
+                        </ul>
+
+                    </section>
+
+
+                    <!-- Quick Notes -->
+                    <section id="notes" class="card notes-card">
+
+                        <div class="card-header">
+
+                            <div>
+                                <p class="eyebrow">NOTES</p>
+                                <h2>Quick Notes</h2>
+                            </div>
+
+                            <button
+                                id="clearNotes"
+                                class="text-button"
+                            >
+                                Clear
+                            </button>
+
+                        </div>
+
+                        <textarea
+                            id="notesInput"
+                            placeholder="Write something..."
+                        ></textarea>
+
+                    </section>
+
+
+                    <!-- Quick Links -->
+                    <section class="card links-card">
+
+                        <div class="card-header">
+
+                            <div>
+                                <p class="eyebrow">SHORTCUTS</p>
+                                <h2>Quick Links</h2>
+                            </div>
+
+                        </div>
+
+                        <div class="quick-links">
+
+                            <a
+                                href="https://github.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <span>◈</span>
+                                GitHub
+                            </a>
+
+                            <a
+                                href="https://developer.mozilla.org"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <span>◇</span>
+                                MDN
+                            </a>
+
+                            <a
+                                href="https://stackoverflow.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <span>?</span>
+                                Stack Overflow
+                            </a>
+
+                            <a
+                                href="https://www.google.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <span>⌕</span>
+                                Google
+                            </a>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- Progress -->
+                    <section
+                        id="analytics"
+                        class="card progress-card"
+                    >
+
+                        <div class="card-header">
+
+                            <div>
+                                <p class="eyebrow">ANALYTICS</p>
+                                <h2>Today's Progress</h2>
+                            </div>
+
+                        </div>
+
+                        <div class="progress-container">
+
+                            <div class="progress-info">
+
+                                <span>Productivity</span>
+
+                                <strong id="progressPercentage">
+                                    0%
+                                </strong>
+
+                            </div>
+
+                            <div class="progress-bar">
+
+                                <div
+                                    id="progressBar"
+                                    class="progress-fill"
+                                ></div>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
