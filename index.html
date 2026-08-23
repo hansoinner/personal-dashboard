@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -14,124 +15,205 @@
         content="A modern personal productivity dashboard."
     >
 
-    <title>Personal Dashboard</title>
+    <title>
+        Personal Dashboard
+    </title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
 </head>
+
 
 <body>
 
-    <div class="app">
+    <!-- ========================================
+         MOBILE OVERLAY
+    ========================================= -->
 
-        <!-- ================================
-             SIDEBAR
-        ================================= -->
+    <div
+        id="sidebarOverlay"
+        class="sidebar-overlay"
+    ></div>
 
-        <aside
-            class="sidebar"
-            id="sidebar"
-        >
 
-            <div class="logo">
+    <!-- ========================================
+         SIDEBAR
+    ========================================= -->
 
-                <span class="logo-icon">
-                    ◆
+    <aside
+        id="sidebar"
+        class="sidebar"
+    >
+
+        <div class="sidebar-header">
+
+            <a
+                href="#"
+                class="logo"
+            >
+                <span class="logo-mark">
+                    D
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+            </a>
+
+        </div>
+
+
+        <nav class="navigation">
+
+            <p class="nav-label">
+                MAIN
+            </p>
+
+
+            <a
+                href="#dashboard"
+                class="nav-link active"
+            >
+
+                <span class="nav-icon">
+                    ▦
                 </span>
 
                 <span>
                     Dashboard
                 </span>
 
-            </div>
+            </a>
 
 
-            <nav class="navigation">
-
-                <a
-                    href="#dashboard"
-                    class="nav-link active"
-                >
-                    <span>⌂</span>
-                    Dashboard
-                </a>
-
-
-                <a
-                    href="#tasks"
-                    class="nav-link"
-                >
-                    <span>✓</span>
-                    Tasks
-                </a>
-
-
-                <a
-                    href="#notes"
-                    class="nav-link"
-                >
-                    <span>📝</span>
-                    Notes
-                </a>
-
-
-                <a
-                    href="#analytics"
-                    class="nav-link"
-                >
-                    <span>▥</span>
-                    Analytics
-                </a>
-
-            </nav>
-
-
-            <div class="sidebar-bottom">
-
-                <a
-                    href="#dashboard"
-                    class="nav-link"
-                >
-                    <span>⚙</span>
-                    Settings
-                </a>
-
-            </div>
-
-        </aside>
-
-
-        <!-- ================================
-             MAIN CONTENT
-        ================================= -->
-
-        <main class="main-content">
-
-            <!-- Mobile Menu -->
-
-            <button
-                class="mobile-menu-button"
-                id="mobileMenuButton"
-                aria-label="Open navigation"
-                aria-controls="sidebar"
-                aria-expanded="false"
+            <a
+                href="#tasks"
+                class="nav-link"
             >
-                ☰
-            </button>
+
+                <span class="nav-icon">
+                    ✓
+                </span>
+
+                <span>
+                    Tasks
+                </span>
+
+            </a>
 
 
-            <!-- Overlay -->
+            <a
+                href="#calendar"
+                class="nav-link"
+            >
 
-            <div
-                class="sidebar-overlay"
-                id="sidebarOverlay"
-            ></div>
+                <span class="nav-icon">
+                    □
+                </span>
+
+                <span>
+                    Calendar
+                </span>
+
+            </a>
 
 
-            <!-- ================================
-                 TOPBAR
-            ================================= -->
+            <p class="nav-label">
+                PERSONAL
+            </p>
 
-            <header class="topbar">
+
+            <a
+                href="#notes"
+                class="nav-link"
+            >
+
+                <span class="nav-icon">
+                    ✎
+                </span>
+
+                <span>
+                    Notes
+                </span>
+
+            </a>
+
+
+            <a
+                href="#progress"
+                class="nav-link"
+            >
+
+                <span class="nav-icon">
+                    ◔
+                </span>
+
+                <span>
+                    Progress
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            <div class="profile-mini">
+
+                <div class="profile-avatar">
+                    S
+                </div>
+
+                <div>
+
+                    <strong>
+                        Sondre
+                    </strong>
+
+                    <span>
+                        Web Developer
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ========================================
+         MAIN
+    ========================================= -->
+
+    <main
+        id="dashboard"
+        class="main"
+    >
+
+        <!-- ====================================
+             TOP BAR
+        ====================================== -->
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button
+                    id="mobileMenuButton"
+                    class="mobile-menu-button"
+                    type="button"
+                    aria-label="Open navigation"
+                    aria-expanded="false"
+                >
+                    ☰
+                </button>
+
 
                 <div>
 
@@ -140,545 +222,614 @@
                     </p>
 
                     <h1>
-                        Good morning 👋
+                        Good morning, Sondre.
                     </h1>
-
-                    <p class="subtitle">
-                        Here's what's happening today.
-                    </p>
 
                 </div>
 
+            </div>
 
-                <div class="topbar-right">
 
-                    <div class="date-time">
+            <div class="topbar-right">
 
-                        <span id="currentDate">
-                            Monday, January 1
+                <div class="date-display">
+
+                    <span id="currentDate">
+                        Loading...
+                    </span>
+
+                    <span id="currentTime">
+                        --:--:--
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ====================================
+             DASHBOARD CONTENT
+        ====================================== -->
+
+        <div class="dashboard-content">
+
+
+            <!-- =================================
+                 OVERVIEW
+            =================================== -->
+
+            <section class="stats-grid">
+
+
+                <article class="stat-card">
+
+                    <div class="stat-icon">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <span class="stat-label">
+                            Completed
                         </span>
 
-                        <strong id="currentTime">
-                            00:00:00
+                        <strong
+                            id="completedCount"
+                            class="stat-value"
+                        >
+                            0
                         </strong>
 
                     </div>
 
+                </article>
 
-                    <div class="avatar">
-                        SG
+
+                <article class="stat-card">
+
+                    <div class="stat-icon">
+                        ○
                     </div>
 
-                </div>
-
-            </header>
-
-
-            <!-- ================================
-                 DASHBOARD
-            ================================= -->
-
-            <section
-                id="dashboard"
-                class="dashboard"
-            >
-
-
-                <!-- ================================
-                     STATISTICS
-                ================================= -->
-
-                <div class="stats-grid">
-
-
-                    <article class="stat-card">
-
-                        <div class="stat-icon">
-                            ✓
-                        </div>
-
-                        <div>
-
-                            <p>
-                                Completed
-                            </p>
-
-                            <h2 id="completedCount">
-                                0
-                            </h2>
-
-                        </div>
-
-                    </article>
-
-
-                    <article class="stat-card">
-
-                        <div class="stat-icon">
-                            ○
-                        </div>
-
-                        <div>
-
-                            <p>
-                                Remaining
-                            </p>
-
-                            <h2 id="remainingCount">
-                                0
-                            </h2>
-
-                        </div>
-
-                    </article>
-
-
-                    <article class="stat-card">
-
-                        <div class="stat-icon">
-                            %
-                        </div>
-
-                        <div>
-
-                            <p>
-                                Productivity
-                            </p>
-
-                            <h2 id="productivity">
-                                0%
-                            </h2>
-
-                        </div>
-
-                    </article>
-
-
-                    <article class="stat-card">
-
-                        <div class="stat-icon">
-                            🔥
-                        </div>
-
-                        <div>
-
-                            <p>
-                                Day Streak
-                            </p>
-
-                            <h2>
-                                7
-                            </h2>
-
-                        </div>
-
-                    </article>
-
-                </div>
-
-
-                <!-- ================================
-                     DASHBOARD GRID
-                ================================= -->
-
-                <div class="dashboard-grid">
-
-
-                    <!-- ================================
-                         TASKS
-                    ================================= -->
-
-                    <section
-                        id="tasks"
-                        class="card tasks-card"
-                    >
-
-                        <div class="card-header">
-
-                            <div>
-
-                                <p class="eyebrow">
-                                    PRODUCTIVITY
-                                </p>
-
-                                <h2>
-                                    Today's Tasks
-                                </h2>
-
-                            </div>
-
-
-                            <button
-                                id="addTaskButton"
-                                class="button"
-                                type="button"
-                            >
-                                + Add Task
-                            </button>
-
-                        </div>
-
-
-                        <!-- Task Form -->
-
-                        <form
-    id="taskForm"
-    class="task-form hidden"
->
-
-    <div class="form-row">
-
-        <div class="form-group form-group-large">
-
-            <label for="taskInput">
-                Task
-            </label>
-
-            <input
-                type="text"
-                id="taskInput"
-                placeholder="What needs to be done?"
-                autocomplete="off"
-                required
-            >
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label for="taskCategory">
-                Category
-            </label>
-
-            <select id="taskCategory">
-
-                <option value="Development">
-                    Development
-                </option>
-
-                <option value="Personal">
-                    Personal
-                </option>
-
-                <option value="Learning">
-                    Learning
-                </option>
-
-                <option value="Work">
-                    Work
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label for="taskPriority">
-                Priority
-            </label>
-
-            <select id="taskPriority">
-
-                <option value="low">
-                    Low
-                </option>
-
-                <option value="medium" selected>
-                    Medium
-                </option>
-
-                <option value="high">
-                    High
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label for="taskDueDate">
-                Due date
-            </label>
-
-            <input
-                type="date"
-                id="taskDueDate"
-            >
-
-        </div>
-
-    </div>
-
-
-    <div class="form-actions">
-
-        <button
-            type="button"
-            id="cancelTaskButton"
-            class="secondary-button"
-        >
-            Cancel
-        </button>
-
-        <button
-            type="submit"
-            class="button"
-        >
-            Add Task
-        </button>
-
-    </div>
-
-</form>
-
-<div class="task-controls">
-
-    <div class="search-wrapper">
-
-        <span>
-            🔎
-        </span>
-
-        <input
-            type="search"
-            id="taskSearch"
-            placeholder="Search tasks..."
-        >
-
-    </div>
-
-
-    <select id="taskFilter">
-
-        <option value="all">
-            All Tasks
-        </option>
-
-        <option value="active">
-            Active
-        </option>
-
-        <option value="completed">
-            Completed
-        </option>
-
-        <option value="high">
-            High Priority
-        </option>
-
-    </select>
-
-</div>
-
-
-                        <!-- Task List -->
-
-                        <ul
-                            id="taskList"
-                            class="task-list"
+                    <div>
+
+                        <span class="stat-label">
+                            Remaining
+                        </span>
+
+                        <strong
+                            id="remainingCount"
+                            class="stat-value"
                         >
-                        </ul>
+                            0
+                        </strong>
 
-                    </section>
+                    </div>
 
-
-                    <!-- ================================
-                         NOTES
-                    ================================= -->
-
-                    <section
-                        id="notes"
-                        class="card notes-card"
-                    >
-
-                        <div class="card-header">
-
-                            <div>
-
-                                <p class="eyebrow">
-                                    NOTES
-                                </p>
-
-                                <h2>
-                                    Quick Notes
-                                </h2>
-
-                            </div>
+                </article>
 
 
-                            <button
-                                id="clearNotes"
-                                class="text-button"
-                                type="button"
-                            >
-                                Clear
-                            </button>
+                <article class="stat-card">
 
-                        </div>
+                    <div class="stat-icon">
+                        %
+                    </div>
 
+                    <div>
 
-                        <textarea
-                            id="notesInput"
-                            placeholder="Write something..."
-                        ></textarea>
+                        <span class="stat-label">
+                            Productivity
+                        </span>
 
-                    </section>
+                        <strong
+                            id="productivity"
+                            class="stat-value"
+                        >
+                            0%
+                        </strong>
 
+                    </div>
 
-                    <!-- ================================
-                         QUICK LINKS
-                    ================================= -->
+                </article>
 
-                    <section
-                        class="card links-card"
-                    >
-
-                        <div class="card-header">
-
-                            <div>
-
-                                <p class="eyebrow">
-                                    SHORTCUTS
-                                </p>
-
-                                <h2>
-                                    Quick Links
-                                </h2>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="quick-links">
-
-
-                            <a
-                                href="https://github.com"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <span>
-                                    ◈
-                                </span>
-
-                                GitHub
-                            </a>
-
-
-                            <a
-                                href="https://developer.mozilla.org"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <span>
-                                    ◇
-                                </span>
-
-                                MDN
-                            </a>
-
-
-                            <a
-                                href="https://stackoverflow.com"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <span>
-                                    ?
-                                </span>
-
-                                Stack Overflow
-                            </a>
-
-
-                            <a
-                                href="https://www.google.com"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <span>
-                                    ⌕
-                                </span>
-
-                                Google
-                            </a>
-
-                        </div>
-
-                    </section>
-
-
-                    <!-- ================================
-                         PROGRESS
-                    ================================= -->
-
-                    <section
-                        id="analytics"
-                        class="card progress-card"
-                    >
-
-                        <div class="card-header">
-
-                            <div>
-
-                                <p class="eyebrow">
-                                    ANALYTICS
-                                </p>
-
-                                <h2>
-                                    Today's Progress
-                                </h2>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="progress-container">
-
-                            <div class="progress-info">
-
-                                <span>
-                                    Productivity
-                                </span>
-
-                                <strong id="progressPercentage">
-                                    0%
-                                </strong>
-
-                            </div>
-
-
-                            <div class="progress-bar">
-
-                                <div
-                                    id="progressBar"
-                                    class="progress-fill"
-                                ></div>
-
-                            </div>
-
-                        </div>
-
-                    </section>
-
-
-                </div>
 
             </section>
 
-        </main>
 
-    </div>
+            <!-- =================================
+                 MAIN GRID
+            =================================== -->
+
+            <div class="dashboard-grid">
 
 
-    <script src="script.js"></script>
+                <!-- =============================
+                     TASKS
+                ============================== -->
+
+                <section
+                    id="tasks"
+                    class="card tasks-card"
+                >
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <p class="eyebrow">
+                                PRODUCTIVITY
+                            </p>
+
+                            <h2>
+                                Today's Tasks
+                            </h2>
+
+                        </div>
+
+
+                        <button
+                            id="addTaskButton"
+                            class="button"
+                            type="button"
+                        >
+                            + Add Task
+                        </button>
+
+                    </div>
+
+
+                    <!-- TASK FORM -->
+
+                    <form
+                        id="taskForm"
+                        class="task-form hidden"
+                    >
+
+                        <div class="form-row">
+
+
+                            <div
+                                class="form-group form-group-large"
+                            >
+
+                                <label for="taskInput">
+                                    Task
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="taskInput"
+                                    placeholder="What needs to be done?"
+                                    autocomplete="off"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="taskCategory">
+                                    Category
+                                </label>
+
+                                <select
+                                    id="taskCategory"
+                                >
+
+                                    <option value="Development">
+                                        Development
+                                    </option>
+
+                                    <option value="Personal">
+                                        Personal
+                                    </option>
+
+                                    <option value="Learning">
+                                        Learning
+                                    </option>
+
+                                    <option value="Work">
+                                        Work
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="taskPriority">
+                                    Priority
+                                </label>
+
+                                <select
+                                    id="taskPriority"
+                                >
+
+                                    <option value="low">
+                                        Low
+                                    </option>
+
+                                    <option
+                                        value="medium"
+                                        selected
+                                    >
+                                        Medium
+                                    </option>
+
+                                    <option value="high">
+                                        High
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="taskDueDate">
+                                    Due date
+                                </label>
+
+                                <input
+                                    type="date"
+                                    id="taskDueDate"
+                                >
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="form-actions">
+
+                            <button
+                                type="button"
+                                id="cancelTaskButton"
+                                class="secondary-button"
+                            >
+                                Cancel
+                            </button>
+
+
+                            <button
+                                type="submit"
+                                class="button"
+                            >
+                                Add Task
+                            </button>
+
+                        </div>
+
+                    </form>
+
+
+                    <!-- TASK CONTROLS -->
+
+                    <div class="task-controls">
+
+
+                        <div class="search-wrapper">
+
+                            <span>
+                                🔎
+                            </span>
+
+                            <input
+                                type="search"
+                                id="taskSearch"
+                                placeholder="Search tasks..."
+                            >
+
+                        </div>
+
+
+                        <select
+                            id="taskFilter"
+                        >
+
+                            <option value="all">
+                                All Tasks
+                            </option>
+
+                            <option value="active">
+                                Active
+                            </option>
+
+                            <option value="completed">
+                                Completed
+                            </option>
+
+                            <option value="high">
+                                High Priority
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- TASK LIST -->
+
+                    <ul
+                        id="taskList"
+                        class="task-list"
+                    ></ul>
+
+                </section>
+
+
+                <!-- =============================
+                     NOTES
+                ============================== -->
+
+                <section
+                    id="notes"
+                    class="card notes-card"
+                >
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <p class="eyebrow">
+                                QUICK CAPTURE
+                            </p>
+
+                            <h2>
+                                Notes
+                            </h2>
+
+                        </div>
+
+
+                        <button
+                            id="clearNotes"
+                            class="text-button"
+                            type="button"
+                        >
+                            Clear
+                        </button>
+
+                    </div>
+
+
+                    <textarea
+                        id="notesInput"
+                        class="notes-input"
+                        placeholder="Write something down..."
+                    ></textarea>
+
+
+                    <p class="notes-status">
+                        Your notes are saved automatically.
+                    </p>
+
+                </section>
+
+
+                <!-- =============================
+                     PROGRESS
+                ============================== -->
+
+                <section
+                    id="progress"
+                    class="card progress-card"
+                >
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <p class="eyebrow">
+                                OVERVIEW
+                            </p>
+
+                            <h2>
+                                Progress
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="progress-content">
+
+                        <div class="progress-header">
+
+                            <span>
+                                Task completion
+                            </span>
+
+                            <strong
+                                id="progressPercentage"
+                            >
+                                0%
+                            </strong>
+
+                        </div>
+
+
+                        <div class="progress-track">
+
+                            <div
+                                id="progressBar"
+                                class="progress-bar"
+                            ></div>
+
+                        </div>
+
+
+                        <p class="progress-description">
+                            Complete tasks to improve your productivity score.
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =============================
+                     CALENDAR
+                ============================== -->
+
+                <section
+                    id="calendar"
+                    class="card calendar-card"
+                >
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <p class="eyebrow">
+                                SCHEDULE
+                            </p>
+
+                            <h2>
+                                Calendar
+                            </h2>
+
+                        </div>
+
+
+                        <button
+                            id="todayButton"
+                            class="secondary-button"
+                            type="button"
+                        >
+                            Today
+                        </button>
+
+                    </div>
+
+
+                    <div class="calendar-navigation">
+
+                        <button
+                            id="previousMonth"
+                            class="calendar-nav-button"
+                            type="button"
+                            aria-label="Previous month"
+                        >
+                            ‹
+                        </button>
+
+
+                        <h3 id="calendarMonth">
+                            August 2026
+                        </h3>
+
+
+                        <button
+                            id="nextMonth"
+                            class="calendar-nav-button"
+                            type="button"
+                            aria-label="Next month"
+                        >
+                            ›
+                        </button>
+
+                    </div>
+
+
+                    <div class="calendar-weekdays">
+
+                        <span>
+                            Sun
+                        </span>
+
+                        <span>
+                            Mon
+                        </span>
+
+                        <span>
+                            Tue
+                        </span>
+
+                        <span>
+                            Wed
+                        </span>
+
+                        <span>
+                            Thu
+                        </span>
+
+                        <span>
+                            Fri
+                        </span>
+
+                        <span>
+                            Sat
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        id="calendarDays"
+                        class="calendar-days"
+                    ></div>
+
+
+                    <div
+                        id="selectedDayTasks"
+                        class="selected-day-tasks"
+                    ></div>
+
+                </section>
+
+
+                <!-- =============================
+                     UPCOMING TASKS
+                ============================== -->
+
+                <section
+                    class="card upcoming-card"
+                >
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <p class="eyebrow">
+                                UPCOMING
+                            </p>
+
+                            <h2>
+                                Upcoming Tasks
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="upcomingTasks"
+                        class="upcoming-tasks"
+                    ></div>
+
+                </section>
+
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script
+        src="script.js"
+    ></script>
 
 </body>
 

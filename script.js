@@ -32,6 +32,7 @@ const cancelTaskButton =
         "cancelTaskButton"
     );
 
+
 const taskSearch =
     document.getElementById("taskSearch");
 
@@ -81,6 +82,46 @@ const clearNotes =
 
 
 /* ========================================
+   CALENDAR ELEMENTS
+======================================== */
+
+const calendarMonth =
+    document.getElementById(
+        "calendarMonth"
+    );
+
+const calendarDays =
+    document.getElementById(
+        "calendarDays"
+    );
+
+const previousMonth =
+    document.getElementById(
+        "previousMonth"
+    );
+
+const nextMonth =
+    document.getElementById(
+        "nextMonth"
+    );
+
+const todayButton =
+    document.getElementById(
+        "todayButton"
+    );
+
+const selectedDayTasks =
+    document.getElementById(
+        "selectedDayTasks"
+    );
+
+const upcomingTasks =
+    document.getElementById(
+        "upcomingTasks"
+    );
+
+
+/* ========================================
    MOBILE NAVIGATION
 ======================================== */
 
@@ -118,6 +159,16 @@ let tasks =
 
 
 let editingTaskId = null;
+
+
+let calendarDate =
+    new Date();
+
+
+let selectedDate =
+    formatDateKey(
+        new Date()
+    );
 
 
 /* ========================================
@@ -164,7 +215,40 @@ setInterval(
 
 
 /* ========================================
-   TASK STORAGE
+   DATE KEY
+======================================== */
+
+function formatDateKey(date) {
+
+    const year =
+        date.getFullYear();
+
+
+    const month =
+        String(
+            date.getMonth() + 1
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    const day =
+        String(
+            date.getDate()
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    return `${year}-${month}-${day}`;
+
+}
+
+
+/* ========================================
+   STORAGE
 ======================================== */
 
 function saveTasks() {
@@ -184,7 +268,9 @@ function saveTasks() {
 function formatDate(dateString) {
 
     if (!dateString) {
+
         return "";
+
     }
 
 
@@ -224,6 +310,7 @@ function isOverdue(task) {
     const today =
         new Date();
 
+
     today.setHours(
         0,
         0,
@@ -244,7 +331,21 @@ function isOverdue(task) {
 
 
 /* ========================================
-   GET FILTERED TASKS
+   CAPITALIZE
+======================================== */
+
+function capitalize(value) {
+
+    return value
+        .charAt(0)
+        .toUpperCase() +
+        value.slice(1);
+
+}
+
+
+/* ========================================
+   FILTER TASKS
 ======================================== */
 
 function getFilteredTasks() {
@@ -265,10 +366,13 @@ function getFilteredTasks() {
             const matchesSearch =
                 task.title
                     .toLowerCase()
-                    .includes(searchTerm);
+                    .includes(
+                        searchTerm
+                    );
 
 
-            let matchesFilter = true;
+            let matchesFilter =
+                true;
 
 
             if (
@@ -296,7 +400,8 @@ function getFilteredTasks() {
             ) {
 
                 matchesFilter =
-                    task.priority === "high";
+                    task.priority ===
+                    "high";
 
             }
 
@@ -339,7 +444,9 @@ function renderTasks() {
             "task-empty-state";
 
 
-        if (tasks.length === 0) {
+        if (
+            tasks.length === 0
+        ) {
 
             emptyState.textContent =
                 "No tasks yet. Add your first task.";
@@ -375,7 +482,9 @@ function renderTasks() {
                 "task-item";
 
 
-            if (task.completed) {
+            if (
+                task.completed
+            ) {
 
                 li.classList.add(
                     "completed"
@@ -434,7 +543,7 @@ function renderTasks() {
                 "task-content";
 
 
-            /* Title row */
+            /* Title */
 
             const titleRow =
                 document.createElement(
@@ -691,65 +800,6 @@ function renderTasks() {
 
 
 /* ========================================
-   CAPITALIZE
-======================================== */
-
-function capitalize(value) {
-
-    return value
-        .charAt(0)
-        .toUpperCase() +
-        value.slice(1);
-
-}
-
-
-/* ========================================
-   ADD / EDIT TASK
-======================================== */
-
-taskForm.addEventListener(
-    "submit",
-    event => {
-
-        event.preventDefault();
-
-
-        const title =
-            taskInput.value.trim();
-
-
-        if (!title) {
-
-            taskInput.focus();
-
-            return;
-
-        }
-
-
-        if (
-            editingTaskId !== null
-        ) {
-
-            updateTask(
-                editingTaskId,
-                title
-            );
-
-        } else {
-
-            createTask(
-                title
-            );
-
-        }
-
-    }
-);
-
-
-/* ========================================
    CREATE TASK
 ======================================== */
 
@@ -790,6 +840,12 @@ function createTask(title) {
 
     updateStats();
 
+    renderCalendar();
+
+    renderSelectedDayTasks();
+
+    renderUpcomingTasks();
+
 }
 
 
@@ -810,18 +866,23 @@ function updateTask(
 
 
     if (!task) {
+
         return;
+
     }
 
 
     task.title =
         title;
 
+
     task.category =
         taskCategory.value;
 
+
     task.priority =
         taskPriority.value;
+
 
     task.dueDate =
         taskDueDate.value;
@@ -836,6 +897,12 @@ function updateTask(
     renderTasks();
 
     updateStats();
+
+    renderCalendar();
+
+    renderSelectedDayTasks();
+
+    renderUpcomingTasks();
 
 }
 
@@ -854,7 +921,9 @@ function editTask(id) {
 
 
     if (!task) {
+
         return;
+
     }
 
 
@@ -928,6 +997,12 @@ function deleteTask(id) {
 
     updateStats();
 
+    renderCalendar();
+
+    renderSelectedDayTasks();
+
+    renderUpcomingTasks();
+
 }
 
 
@@ -945,7 +1020,9 @@ function toggleTask(id) {
 
 
     if (!task) {
+
         return;
+
     }
 
 
@@ -960,7 +1037,58 @@ function toggleTask(id) {
 
     updateStats();
 
+    renderCalendar();
+
+    renderSelectedDayTasks();
+
+    renderUpcomingTasks();
+
 }
+
+
+/* ========================================
+   TASK FORM SUBMIT
+======================================== */
+
+taskForm.addEventListener(
+    "submit",
+    event => {
+
+        event.preventDefault();
+
+
+        const title =
+            taskInput.value.trim();
+
+
+        if (!title) {
+
+            taskInput.focus();
+
+            return;
+
+        }
+
+
+        if (
+            editingTaskId !== null
+        ) {
+
+            updateTask(
+                editingTaskId,
+                title
+            );
+
+        } else {
+
+            createTask(
+                title
+            );
+
+        }
+
+    }
+);
 
 
 /* ========================================
@@ -1072,7 +1200,7 @@ taskFilter.addEventListener(
 
 
 /* ========================================
-   UPDATE STATISTICS
+   UPDATE STATS
 ======================================== */
 
 function updateStats() {
@@ -1157,6 +1285,597 @@ clearNotes.addEventListener(
         localStorage.removeItem(
             "dashboardNotes"
         );
+
+    }
+);
+
+
+/* ========================================
+   CALENDAR
+======================================== */
+
+function renderCalendar() {
+
+    calendarDays.innerHTML =
+        "";
+
+
+    const year =
+        calendarDate.getFullYear();
+
+
+    const month =
+        calendarDate.getMonth();
+
+
+    calendarMonth.textContent =
+        calendarDate.toLocaleDateString(
+            "en-US",
+            {
+                month: "long",
+                year: "numeric"
+            }
+        );
+
+
+    const firstDay =
+        new Date(
+            year,
+            month,
+            1
+        ).getDay();
+
+
+    const daysInMonth =
+        new Date(
+            year,
+            month + 1,
+            0
+        ).getDate();
+
+
+    /* Empty cells */
+
+    for (
+        let i = 0;
+        i < firstDay;
+        i++
+    ) {
+
+        const emptyDay =
+            document.createElement(
+                "div"
+            );
+
+
+        emptyDay.className =
+            "calendar-day empty";
+
+
+        calendarDays.appendChild(
+            emptyDay
+        );
+
+    }
+
+
+    /* Days */
+
+    for (
+        let day = 1;
+        day <= daysInMonth;
+        day++
+    ) {
+
+        const date =
+            new Date(
+                year,
+                month,
+                day
+            );
+
+
+        const dateKey =
+            formatDateKey(
+                date
+            );
+
+
+        const dayButton =
+            document.createElement(
+                "button"
+            );
+
+
+        dayButton.type =
+            "button";
+
+
+        dayButton.className =
+            "calendar-day";
+
+
+        /* Today */
+
+        if (
+            dateKey ===
+            formatDateKey(
+                new Date()
+            )
+        ) {
+
+            dayButton.classList.add(
+                "today"
+            );
+
+        }
+
+
+        /* Selected */
+
+        if (
+            dateKey ===
+            selectedDate
+        ) {
+
+            dayButton.classList.add(
+                "selected"
+            );
+
+        }
+
+
+        const number =
+            document.createElement(
+                "span"
+            );
+
+
+        number.className =
+            "calendar-day-number";
+
+
+        number.textContent =
+            day;
+
+
+        dayButton.appendChild(
+            number
+        );
+
+
+        /* Tasks */
+
+        const dateTasks =
+            tasks.filter(
+                task =>
+                    task.dueDate ===
+                    dateKey
+            );
+
+
+        if (
+            dateTasks.length > 0
+        ) {
+
+            const dot =
+                document.createElement(
+                    "span"
+                );
+
+
+            dot.className =
+                "calendar-task-dot";
+
+
+            dayButton.appendChild(
+                dot
+            );
+
+
+            if (
+                dateTasks.length > 1
+            ) {
+
+                const count =
+                    document.createElement(
+                        "span"
+                    );
+
+
+                count.className =
+                    "calendar-task-count";
+
+
+                count.textContent =
+                    dateTasks.length;
+
+
+                dayButton.appendChild(
+                    count
+                );
+
+            }
+
+        }
+
+
+        dayButton.addEventListener(
+            "click",
+            () => {
+
+                selectedDate =
+                    dateKey;
+
+
+                renderCalendar();
+
+                renderSelectedDayTasks();
+
+            }
+        );
+
+
+        calendarDays.appendChild(
+            dayButton
+        );
+
+    }
+
+}
+
+
+/* ========================================
+   SELECTED DAY TASKS
+======================================== */
+
+function renderSelectedDayTasks() {
+
+    selectedDayTasks.innerHTML =
+        "";
+
+
+    const heading =
+        document.createElement(
+            "p"
+        );
+
+
+    heading.className =
+        "selected-day-title";
+
+
+    const date =
+        new Date(
+            `${selectedDate}T00:00:00`
+        );
+
+
+    heading.textContent =
+        date.toLocaleDateString(
+            "en-US",
+            {
+                weekday: "long",
+                month: "long",
+                day: "numeric"
+            }
+        );
+
+
+    selectedDayTasks.appendChild(
+        heading
+    );
+
+
+    const dateTasks =
+        tasks.filter(
+            task =>
+                task.dueDate ===
+                selectedDate
+        );
+
+
+    if (
+        dateTasks.length === 0
+    ) {
+
+        const empty =
+            document.createElement(
+                "p"
+            );
+
+
+        empty.textContent =
+            "No tasks scheduled for this day.";
+
+
+        empty.style.color =
+            "var(--text-muted)";
+
+
+        empty.style.fontSize =
+            "12px";
+
+
+        selectedDayTasks.appendChild(
+            empty
+        );
+
+
+        return;
+
+    }
+
+
+    dateTasks.forEach(
+        task => {
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+
+            item.className =
+                "selected-task";
+
+
+            if (
+                task.completed
+            ) {
+
+                item.classList.add(
+                    "completed"
+                );
+
+            }
+
+
+            const priority =
+                document.createElement(
+                    "span"
+                );
+
+
+            priority.className =
+                `selected-task-priority ${task.priority}`;
+
+
+            const title =
+                document.createElement(
+                    "span"
+                );
+
+
+            title.textContent =
+                task.title;
+
+
+            item.appendChild(
+                priority
+            );
+
+
+            item.appendChild(
+                title
+            );
+
+
+            selectedDayTasks.appendChild(
+                item
+            );
+
+        }
+    );
+
+}
+
+
+/* ========================================
+   UPCOMING TASKS
+======================================== */
+
+function renderUpcomingTasks() {
+
+    upcomingTasks.innerHTML =
+        "";
+
+
+    const upcoming =
+        tasks
+            .filter(
+                task =>
+                    task.dueDate &&
+                    !task.completed
+            )
+            .sort(
+                (a, b) =>
+                    a.dueDate.localeCompare(
+                        b.dueDate
+                    )
+            )
+            .slice(
+                0,
+                6
+            );
+
+
+    if (
+        upcoming.length === 0
+    ) {
+
+        const empty =
+            document.createElement(
+                "p"
+            );
+
+
+        empty.textContent =
+            "No upcoming tasks.";
+
+
+        empty.style.color =
+            "var(--text-muted)";
+
+
+        empty.style.fontSize =
+            "12px";
+
+
+        upcomingTasks.appendChild(
+            empty
+        );
+
+
+        return;
+
+    }
+
+
+    upcoming.forEach(
+        task => {
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+
+            item.className =
+                "upcoming-task";
+
+
+            if (
+                isOverdue(task)
+            ) {
+
+                item.classList.add(
+                    "overdue"
+                );
+
+            }
+
+
+            const date =
+                document.createElement(
+                    "p"
+                );
+
+
+            date.className =
+                "upcoming-task-date";
+
+
+            date.textContent =
+                isOverdue(task)
+                    ? `Overdue · ${formatDate(task.dueDate)}`
+                    : formatDate(task.dueDate);
+
+
+            const title =
+                document.createElement(
+                    "p"
+                );
+
+
+            title.className =
+                "upcoming-task-title";
+
+
+            title.textContent =
+                task.title;
+
+
+            const meta =
+                document.createElement(
+                    "div"
+                );
+
+
+            meta.className =
+                "upcoming-task-meta";
+
+
+            meta.textContent =
+                `${task.category} · ${capitalize(task.priority)} priority`;
+
+
+            item.appendChild(
+                date
+            );
+
+
+            item.appendChild(
+                title
+            );
+
+
+            item.appendChild(
+                meta
+            );
+
+
+            upcomingTasks.appendChild(
+                item
+            );
+
+        }
+    );
+
+}
+
+
+/* ========================================
+   CALENDAR NAVIGATION
+======================================== */
+
+previousMonth.addEventListener(
+    "click",
+    () => {
+
+        calendarDate.setMonth(
+            calendarDate.getMonth() - 1
+        );
+
+
+        renderCalendar();
+
+    }
+);
+
+
+nextMonth.addEventListener(
+    "click",
+    () => {
+
+        calendarDate.setMonth(
+            calendarDate.getMonth() + 1
+        );
+
+
+        renderCalendar();
+
+    }
+);
+
+
+todayButton.addEventListener(
+    "click",
+    () => {
+
+        calendarDate =
+            new Date();
+
+
+        selectedDate =
+            formatDateKey(
+                new Date()
+            );
+
+
+        renderCalendar();
+
+        renderSelectedDayTasks();
 
     }
 );
@@ -1309,7 +2028,7 @@ navigationLinks.forEach(
 
 
 /* ========================================
-   ESCAPE
+   ESCAPE KEY
 ======================================== */
 
 document.addEventListener(
@@ -1338,3 +2057,9 @@ document.addEventListener(
 renderTasks();
 
 updateStats();
+
+renderCalendar();
+
+renderSelectedDayTasks();
+
+renderUpcomingTasks();
