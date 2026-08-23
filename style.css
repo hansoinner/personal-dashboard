@@ -1198,3 +1198,336 @@ textarea:focus-visible {
     }
 
 }
+/* ========================================
+   ADVANCED TASK FORM
+======================================== */
+
+.task-form {
+    padding: 18px;
+
+    margin-bottom: 18px;
+
+    background: var(--surface-soft);
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 13px;
+}
+
+.form-row {
+    display: grid;
+
+    grid-template-columns:
+        minmax(180px, 2fr)
+        repeat(3, minmax(120px, 1fr));
+
+    gap: 12px;
+}
+
+.form-group {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+.form-group-large {
+    min-width: 0;
+}
+
+.form-group label {
+    color: var(--text-secondary);
+
+    font-size: 11px;
+
+    font-weight: 650;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+
+    min-width: 0;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 9px;
+
+    background: white;
+
+    color: var(--text);
+
+    padding: 10px 11px;
+
+    outline: none;
+
+    font-size: 12px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(79, 70, 229, 0.08);
+}
+
+.form-actions {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 8px;
+
+    margin-top: 16px;
+}
+
+.secondary-button {
+    border:
+        1px solid var(--border);
+
+    background: white;
+
+    color: var(--text-secondary);
+
+    padding: 10px 14px;
+
+    border-radius: var(--radius-sm);
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+.secondary-button:hover {
+    background: var(--surface-soft);
+
+    color: var(--text);
+}
+
+
+/* ========================================
+   TASK CONTROLS
+======================================== */
+
+.task-controls {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 16px;
+}
+
+.search-wrapper {
+    position: relative;
+
+    flex: 1;
+}
+
+.search-wrapper span {
+    position: absolute;
+
+    left: 12px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    font-size: 12px;
+
+    pointer-events: none;
+}
+
+.search-wrapper input,
+.task-controls select {
+    width: 100%;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 9px;
+
+    background: white;
+
+    color: var(--text);
+
+    padding: 10px 12px;
+
+    outline: none;
+
+    font-size: 12px;
+}
+
+.search-wrapper input {
+    padding-left: 34px;
+}
+
+.search-wrapper input:focus,
+.task-controls select:focus {
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(79, 70, 229, 0.08);
+}
+
+.task-controls select {
+    width: 160px;
+}
+
+
+/* ========================================
+   ENHANCED TASK ITEM
+======================================== */
+
+.task-item {
+    align-items: flex-start;
+}
+
+.task-content {
+    flex: 1;
+
+    min-width: 0;
+}
+
+.task-title-row {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 5px;
+}
+
+.task-meta {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    align-items: center;
+
+    gap: 7px;
+}
+
+.task-category,
+.task-priority,
+.task-due-date {
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 3px 7px;
+
+    border-radius: 999px;
+
+    font-size: 10px;
+
+    font-weight: 650;
+}
+
+.task-category {
+    background: #f3f4f6;
+
+    color: var(--text-secondary);
+}
+
+.task-priority.low {
+    background: #ecfdf5;
+
+    color: #15803d;
+}
+
+.task-priority.medium {
+    background: #fffbeb;
+
+    color: #a16207;
+}
+
+.task-priority.high {
+    background: #fef2f2;
+
+    color: #dc2626;
+}
+
+.task-due-date {
+    background: var(--primary-light);
+
+    color: var(--primary);
+}
+
+.task-due-date.overdue {
+    background: #fef2f2;
+
+    color: var(--danger);
+}
+
+
+/* ========================================
+   TASK ACTIONS
+======================================== */
+
+.task-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 3px;
+}
+
+.task-action {
+    width: 30px;
+    height: 30px;
+
+    display: grid;
+
+    place-items: center;
+
+    border: 0;
+
+    border-radius: 8px;
+
+    background: transparent;
+
+    color: var(--text-muted);
+
+    font-size: 14px;
+
+    opacity: 0;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.task-item:hover .task-action {
+    opacity: 1;
+}
+
+.task-action:hover {
+    background: white;
+
+    color: var(--text);
+}
+
+.task-action.delete:hover {
+    color: var(--danger);
+}
+.task-empty-state {
+    padding: 30px 10px;
+
+    text-align: center;
+
+    color: var(--text-muted);
+
+    font-size: 13px;
+
+    list-style: none;
+}
