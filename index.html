@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
 
@@ -22,41 +23,74 @@
 
     <div class="app">
 
-        <!-- Sidebar -->
-        <aside class="sidebar">
+        <!-- ================================
+             SIDEBAR
+        ================================= -->
+
+        <aside
+            class="sidebar"
+            id="sidebar"
+        >
 
             <div class="logo">
-                <span class="logo-icon">◆</span>
-                <span>Dashboard</span>
+
+                <span class="logo-icon">
+                    ◆
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+
             </div>
+
 
             <nav class="navigation">
 
-                <a href="#dashboard" class="nav-link active">
+                <a
+                    href="#dashboard"
+                    class="nav-link active"
+                >
                     <span>⌂</span>
                     Dashboard
                 </a>
 
-                <a href="#tasks" class="nav-link">
+
+                <a
+                    href="#tasks"
+                    class="nav-link"
+                >
                     <span>✓</span>
                     Tasks
                 </a>
 
-                <a href="#notes" class="nav-link">
+
+                <a
+                    href="#notes"
+                    class="nav-link"
+                >
                     <span>📝</span>
                     Notes
                 </a>
 
-                <a href="#analytics" class="nav-link">
+
+                <a
+                    href="#analytics"
+                    class="nav-link"
+                >
                     <span>▥</span>
                     Analytics
                 </a>
 
             </nav>
 
+
             <div class="sidebar-bottom">
 
-                <a href="#settings" class="nav-link">
+                <a
+                    href="#dashboard"
+                    class="nav-link"
+                >
                     <span>⚙</span>
                     Settings
                 </a>
@@ -66,14 +100,44 @@
         </aside>
 
 
-        <!-- Main Content -->
+        <!-- ================================
+             MAIN CONTENT
+        ================================= -->
+
         <main class="main-content">
 
-            <!-- Header -->
+            <!-- Mobile Menu -->
+
+            <button
+                class="mobile-menu-button"
+                id="mobileMenuButton"
+                aria-label="Open navigation"
+                aria-controls="sidebar"
+                aria-expanded="false"
+            >
+                ☰
+            </button>
+
+
+            <!-- Overlay -->
+
+            <div
+                class="sidebar-overlay"
+                id="sidebarOverlay"
+            ></div>
+
+
+            <!-- ================================
+                 TOPBAR
+            ================================= -->
+
             <header class="topbar">
 
                 <div>
-                    <p class="eyebrow">PERSONAL DASHBOARD</p>
+
+                    <p class="eyebrow">
+                        PERSONAL DASHBOARD
+                    </p>
 
                     <h1>
                         Good morning 👋
@@ -82,7 +146,9 @@
                     <p class="subtitle">
                         Here's what's happening today.
                     </p>
+
                 </div>
+
 
                 <div class="topbar-right">
 
@@ -98,6 +164,7 @@
 
                     </div>
 
+
                     <div class="avatar">
                         SG
                     </div>
@@ -107,11 +174,22 @@
             </header>
 
 
-            <!-- Dashboard -->
-            <section id="dashboard" class="dashboard">
+            <!-- ================================
+                 DASHBOARD
+            ================================= -->
 
-                <!-- Statistics -->
+            <section
+                id="dashboard"
+                class="dashboard"
+            >
+
+
+                <!-- ================================
+                     STATISTICS
+                ================================= -->
+
                 <div class="stats-grid">
+
 
                     <article class="stat-card">
 
@@ -120,8 +198,15 @@
                         </div>
 
                         <div>
-                            <p>Completed</p>
-                            <h2 id="completedCount">0</h2>
+
+                            <p>
+                                Completed
+                            </p>
+
+                            <h2 id="completedCount">
+                                0
+                            </h2>
+
                         </div>
 
                     </article>
@@ -134,8 +219,15 @@
                         </div>
 
                         <div>
-                            <p>Remaining</p>
-                            <h2 id="remainingCount">0</h2>
+
+                            <p>
+                                Remaining
+                            </p>
+
+                            <h2 id="remainingCount">
+                                0
+                            </h2>
+
                         </div>
 
                     </article>
@@ -148,8 +240,15 @@
                         </div>
 
                         <div>
-                            <p>Productivity</p>
-                            <h2 id="productivity">0%</h2>
+
+                            <p>
+                                Productivity
+                            </p>
+
+                            <h2 id="productivity">
+                                0%
+                            </h2>
+
                         </div>
 
                     </article>
@@ -162,8 +261,15 @@
                         </div>
 
                         <div>
-                            <p>Day Streak</p>
-                            <h2>7</h2>
+
+                            <p>
+                                Day Streak
+                            </p>
+
+                            <h2>
+                                7
+                            </h2>
+
                         </div>
 
                     </article>
@@ -171,29 +277,49 @@
                 </div>
 
 
-                <!-- Main Grid -->
+                <!-- ================================
+                     DASHBOARD GRID
+                ================================= -->
+
                 <div class="dashboard-grid">
 
 
-                    <!-- Tasks -->
-                    <section id="tasks" class="card tasks-card">
+                    <!-- ================================
+                         TASKS
+                    ================================= -->
+
+                    <section
+                        id="tasks"
+                        class="card tasks-card"
+                    >
 
                         <div class="card-header">
 
                             <div>
-                                <p class="eyebrow">PRODUCTIVITY</p>
-                                <h2>Today's Tasks</h2>
+
+                                <p class="eyebrow">
+                                    PRODUCTIVITY
+                                </p>
+
+                                <h2>
+                                    Today's Tasks
+                                </h2>
+
                             </div>
+
 
                             <button
                                 id="addTaskButton"
                                 class="button"
+                                type="button"
                             >
                                 + Add Task
                             </button>
 
                         </div>
 
+
+                        <!-- Task Form -->
 
                         <form
                             id="taskForm"
@@ -214,6 +340,8 @@
                         </form>
 
 
+                        <!-- Task List -->
+
                         <ul
                             id="taskList"
                             class="task-list"
@@ -223,24 +351,40 @@
                     </section>
 
 
-                    <!-- Quick Notes -->
-                    <section id="notes" class="card notes-card">
+                    <!-- ================================
+                         NOTES
+                    ================================= -->
+
+                    <section
+                        id="notes"
+                        class="card notes-card"
+                    >
 
                         <div class="card-header">
 
                             <div>
-                                <p class="eyebrow">NOTES</p>
-                                <h2>Quick Notes</h2>
+
+                                <p class="eyebrow">
+                                    NOTES
+                                </p>
+
+                                <h2>
+                                    Quick Notes
+                                </h2>
+
                             </div>
+
 
                             <button
                                 id="clearNotes"
                                 class="text-button"
+                                type="button"
                             >
                                 Clear
                             </button>
 
                         </div>
+
 
                         <textarea
                             id="notesInput"
@@ -250,53 +394,82 @@
                     </section>
 
 
-                    <!-- Quick Links -->
-                    <section class="card links-card">
+                    <!-- ================================
+                         QUICK LINKS
+                    ================================= -->
+
+                    <section
+                        class="card links-card"
+                    >
 
                         <div class="card-header">
 
                             <div>
-                                <p class="eyebrow">SHORTCUTS</p>
-                                <h2>Quick Links</h2>
+
+                                <p class="eyebrow">
+                                    SHORTCUTS
+                                </p>
+
+                                <h2>
+                                    Quick Links
+                                </h2>
+
                             </div>
 
                         </div>
 
+
                         <div class="quick-links">
+
 
                             <a
                                 href="https://github.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-                                <span>◈</span>
+                                <span>
+                                    ◈
+                                </span>
+
                                 GitHub
                             </a>
+
 
                             <a
                                 href="https://developer.mozilla.org"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-                                <span>◇</span>
+                                <span>
+                                    ◇
+                                </span>
+
                                 MDN
                             </a>
+
 
                             <a
                                 href="https://stackoverflow.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-                                <span>?</span>
+                                <span>
+                                    ?
+                                </span>
+
                                 Stack Overflow
                             </a>
+
 
                             <a
                                 href="https://www.google.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-                                <span>⌕</span>
+                                <span>
+                                    ⌕
+                                </span>
+
                                 Google
                             </a>
 
@@ -305,7 +478,10 @@
                     </section>
 
 
-                    <!-- Progress -->
+                    <!-- ================================
+                         PROGRESS
+                    ================================= -->
+
                     <section
                         id="analytics"
                         class="card progress-card"
@@ -314,23 +490,34 @@
                         <div class="card-header">
 
                             <div>
-                                <p class="eyebrow">ANALYTICS</p>
-                                <h2>Today's Progress</h2>
+
+                                <p class="eyebrow">
+                                    ANALYTICS
+                                </p>
+
+                                <h2>
+                                    Today's Progress
+                                </h2>
+
                             </div>
 
                         </div>
+
 
                         <div class="progress-container">
 
                             <div class="progress-info">
 
-                                <span>Productivity</span>
+                                <span>
+                                    Productivity
+                                </span>
 
                                 <strong id="progressPercentage">
                                     0%
                                 </strong>
 
                             </div>
+
 
                             <div class="progress-bar">
 
@@ -358,4 +545,5 @@
     <script src="script.js"></script>
 
 </body>
+
 </html>
