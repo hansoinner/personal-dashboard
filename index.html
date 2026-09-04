@@ -58,8 +58,18 @@
                     <section class="dashboard-card" id="progress" aria-labelledby="progress-title"><div class="card-header"><div><p class="card-eyebrow">OVERVIEW</p><h2 id="progress-title">Progress</h2></div></div><div class="progress-container"><div class="progress-circle" id="progressCircle"><span id="progressCirclePercentage">0%</span></div><div class="progress-info"><strong>Task completion</strong><p id="progressMessage">Start by adding your first task.</p></div></div><div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Task completion progress"><div class="progress-bar-fill" id="progressBar"></div></div></section>
                     <section class="dashboard-card" aria-labelledby="upcoming-title"><div class="card-header"><div><p class="card-eyebrow">PLANNING</p><h2 id="upcoming-title">Upcoming</h2></div></div><div class="upcoming-empty" id="upcomingList"><div class="upcoming-icon" aria-hidden="true">📅</div><div><strong>Nothing scheduled</strong><p>Tasks with due dates will appear here.</p></div></div></section>
                     <section class="dashboard-card" id="notes" aria-labelledby="notes-title"><div class="card-header"><div><p class="card-eyebrow">WORKSPACE</p><h2 id="notes-title">Quick Notes</h2></div></div><textarea class="notes-input" id="notesInput" placeholder="Write a quick note..." aria-label="Quick notes" maxlength="5000"></textarea><div class="notes-footer"><span>Saved locally</span><span class="saved-indicator" id="savedIndicator">Ready</span></div></section>
-                    <section class="dashboard-card" id="goals" aria-labelledby="goals-title"><div class="card-header"><div><p class="card-eyebrow">OBJECTIVES</p><h2 id="goals-title">Goals</h2></div><button type="button" class="small-button" disabled>+ Add</button></div><div class="goal-placeholder"><span aria-hidden="true">🎯</span><p>Add your goals to track what matters most.</p></div></section>
-                    <section class="dashboard-card" id="settings" aria-labelledby="settings-title"><div class="card-header"><div><p class="card-eyebrow">SYSTEM</p><h2 id="settings-title">Settings</h2></div></div><div class="setting-row"><div><strong>Storage</strong><p>Tasks and notes are saved in your browser.</p></div><span class="status-badge">Active</span></div><div class="setting-row"><div><strong>Version</strong><p>Personal dashboard</p></div><span class="version-badge">6.0</span></div></section>
+                    <section class="dashboard-card" id="goals" aria-labelledby="goals-title">
+                        <div class="card-header"><div><p class="card-eyebrow">OBJECTIVES</p><h2 id="goals-title">Goals</h2></div></div>
+                        <form class="goal-form" id="goalForm">
+                            <input type="text" id="goalTitle" placeholder="What do you want to achieve?" maxlength="160" aria-label="Goal title" required>
+                            <input type="date" id="goalDeadline" aria-label="Goal deadline">
+                            <label class="goal-progress-input"><span>Progress</span><input type="range" id="goalProgress" min="0" max="100" step="5" value="0" aria-label="Goal progress"><strong id="goalProgressValue">0%</strong></label>
+                            <button type="submit" class="button primary-button">Add Goal</button>
+                        </form>
+                        <div class="goals-list" id="goalsList" aria-live="polite"></div>
+                        <div class="goal-placeholder" id="goalEmpty"><span aria-hidden="true">🎯</span><p>Add your first goal to start tracking what matters most.</p></div>
+                    </section>
+                    <section class="dashboard-card" id="settings" aria-labelledby="settings-title"><div class="card-header"><div><p class="card-eyebrow">SYSTEM</p><h2 id="settings-title">Settings</h2></div></div><div class="setting-row"><div><strong>Storage</strong><p>Tasks, goals and notes are saved in your browser.</p></div><span class="status-badge">Active</span></div><div class="setting-row"><div><strong>Version</strong><p>Personal dashboard</p></div><span class="version-badge">7.0</span></div></section>
                 </div>
             </div>
             <footer class="footer"><span>© <span id="currentYear">2026</span> Personal Dashboard</span><span>Built with HTML, CSS &amp; JavaScript</span></footer>
@@ -67,5 +77,6 @@
     </div>
     <script src="script.js"></script>
     <script src="analytics.js"></script>
+    <script src="goals.js"></script>
 </body>
 </html>
