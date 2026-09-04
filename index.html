@@ -1,1008 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <meta
-        name="description"
-        content="A clean and professional personal dashboard for managing tasks and tracking progress."
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A clean and professional personal dashboard for managing tasks and tracking progress.">
     <title>Personal Dashboard</title>
-
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
-
+    <link rel="stylesheet" href="style.css">
 </head>
-
-
 <body>
-
-    <!-- =====================================================
-         APP
-    ====================================================== -->
-
     <div class="app">
-
-
-        <!-- =================================================
-             SIDEBAR
-        ================================================== -->
-
-        <aside
-            class="sidebar"
-            id="sidebar"
-        >
-
-            <!-- Sidebar Header -->
-
+        <aside class="sidebar" id="sidebar" aria-label="Main navigation">
             <div class="sidebar-header">
-
-                <a
-                    href="#"
-                    class="sidebar-logo"
-                >
-
-                    <span class="logo-mark">
-                        D
-                    </span>
-
-                    <span class="logo-text">
-                        Dashboard
-                    </span>
-
+                <a href="#dashboard" class="sidebar-logo" aria-label="Dashboard home">
+                    <span class="logo-mark" aria-hidden="true">D</span>
+                    <span class="logo-text">Dashboard</span>
                 </a>
-
-
-                <button
-                    type="button"
-                    class="sidebar-close"
-                    aria-label="Close navigation"
-                >
-                    ×
-                </button>
-
+                <button type="button" class="sidebar-close" aria-label="Close navigation">×</button>
             </div>
-
-
-            <!-- Sidebar User -->
 
             <div class="sidebar-user">
-
-                <div class="user-avatar">
-                    SG
-                </div>
-
-                <div class="user-info">
-
-                    <strong>
-                        Sondre
-                    </strong>
-
-                    <span>
-                        Personal Dashboard
-                    </span>
-
-                </div>
-
+                <div class="user-avatar" aria-hidden="true">SG</div>
+                <div class="user-info"><strong>Sondre</strong><span>Personal Dashboard</span></div>
             </div>
 
-
-            <!-- Navigation -->
-
-            <nav
-                class="sidebar-nav"
-                aria-label="Main navigation"
-            >
-
-                <p class="nav-heading">
-                    MAIN
-                </p>
-
-
-                <a
-                    href="#dashboard"
-                    class="sidebar-link active"
-                >
-
-                    <span class="sidebar-icon">
-                        🏠
-                    </span>
-
-                    <span>
-                        Dashboard
-                    </span>
-
-                </a>
-
-
-                <a
-                    href="#tasks"
-                    class="sidebar-link"
-                >
-
-                    <span class="sidebar-icon">
-                        ✓
-                    </span>
-
-                    <span>
-                        Tasks
-                    </span>
-
-                    <span
-                        class="nav-count"
-                        id="allCount"
-                    >
-                        0
-                    </span>
-
-                </a>
-
-
-                <a
-                    href="#progress"
-                    class="sidebar-link"
-                >
-
-                    <span class="sidebar-icon">
-                        📊
-                    </span>
-
-                    <span>
-                        Progress
-                    </span>
-
-                </a>
-
-
-                <p class="nav-heading nav-heading-spaced">
-                    WORKSPACE
-                </p>
-
-
-                <a
-                    href="#notes"
-                    class="sidebar-link"
-                >
-
-                    <span class="sidebar-icon">
-                        📝
-                    </span>
-
-                    <span>
-                        Notes
-                    </span>
-
-                </a>
-
-
-                <a
-                    href="#goals"
-                    class="sidebar-link"
-                >
-
-                    <span class="sidebar-icon">
-                        🎯
-                    </span>
-
-                    <span>
-                        Goals
-                    </span>
-
-                </a>
-
-
-                <a
-                    href="#settings"
-                    class="sidebar-link"
-                >
-
-                    <span class="sidebar-icon">
-                        ⚙
-                    </span>
-
-                    <span>
-                        Settings
-                    </span>
-
-                </a>
-
+            <nav class="sidebar-nav" aria-label="Main navigation">
+                <p class="nav-heading">MAIN</p>
+                <a href="#dashboard" class="sidebar-link active" aria-current="page"><span class="sidebar-icon" aria-hidden="true">🏠</span><span>Dashboard</span></a>
+                <a href="#tasks" class="sidebar-link"><span class="sidebar-icon" aria-hidden="true">✓</span><span>Tasks</span><span class="nav-count" id="allTasksCount">0</span></a>
+                <a href="#progress" class="sidebar-link"><span class="sidebar-icon" aria-hidden="true">📊</span><span>Progress</span></a>
+                <p class="nav-heading nav-heading-spaced">WORKSPACE</p>
+                <a href="#notes" class="sidebar-link"><span class="sidebar-icon" aria-hidden="true">📝</span><span>Notes</span></a>
+                <a href="#goals" class="sidebar-link"><span class="sidebar-icon" aria-hidden="true">🎯</span><span>Goals</span></a>
+                <a href="#settings" class="sidebar-link"><span class="sidebar-icon" aria-hidden="true">⚙</span><span>Settings</span></a>
             </nav>
 
-
-            <!-- Sidebar Bottom -->
-
             <div class="sidebar-bottom">
-
-                <div class="sidebar-tip">
-
-                    <div class="tip-icon">
-                        💡
-                    </div>
-
-                    <div>
-
-                        <strong>
-                            Quick tip
-                        </strong>
-
-                        <p>
-                            Press "/" to quickly
-                            add a task.
-                        </p>
-
-                    </div>
-
-                </div>
-
+                <div class="sidebar-tip"><div class="tip-icon" aria-hidden="true">💡</div><div><strong>Quick tip</strong><p>Press "/" to quickly add a task.</p></div></div>
             </div>
-
         </aside>
 
-
-        <!-- =================================================
-             SIDEBAR OVERLAY
-        ================================================== -->
-
-        <div
-            class="sidebar-overlay"
-            aria-hidden="true"
-        ></div>
-
-
-        <!-- =================================================
-             MAIN AREA
-        ================================================== -->
+        <div class="sidebar-overlay" aria-hidden="true"></div>
 
         <main class="main-area">
-
-
-            <!-- =================================================
-                 TOPBAR
-            ================================================== -->
-
             <header class="topbar">
-
                 <div class="topbar-left">
-
-                    <button
-                        type="button"
-                        class="menu-button"
-                        aria-label="Open navigation"
-                    >
-                        ☰
-                    </button>
-
-
-                    <div>
-
-                        <span class="topbar-label">
-                            TODAY
-                        </span>
-
-                        <h2 class="topbar-title">
-                            Personal Dashboard
-                        </h2>
-
-                    </div>
-
+                    <button type="button" class="menu-button" aria-label="Open navigation" aria-controls="sidebar" aria-expanded="false">☰</button>
+                    <div><span class="topbar-label" id="currentDate">TODAY</span><h1 class="topbar-title">Personal Dashboard</h1></div>
                 </div>
-
-
                 <div class="topbar-actions">
-
-                    <button
-                        type="button"
-                        class="topbar-button"
-                        aria-label="Notifications"
-                    >
-                        🔔
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="topbar-button"
-                        aria-label="Search"
-                    >
-                        🔍
-                    </button>
-
-
-                    <div class="topbar-avatar">
-                        SG
-                    </div>
-
+                    <button type="button" class="topbar-button" aria-label="Notifications">🔔</button>
+                    <button type="button" class="topbar-button" aria-label="Search">🔍</button>
+                    <div class="topbar-avatar" aria-label="Signed in as Sondre">SG</div>
                 </div>
-
             </header>
 
-
-            <!-- =================================================
-                 MAIN CONTENT
-            ================================================== -->
-
             <div class="main-content">
-
-
-                <!-- =================================================
-                     WELCOME
-                ================================================== -->
-
-                <section
-                    class="welcome-section"
-                    id="dashboard"
-                >
-
-                    <div>
-
-                        <p class="eyebrow">
-                            PERSONAL DASHBOARD
-                        </p>
-
-                        <h2>
-                            Welcome back, Sondre
-                        </h2>
-
-                        <p class="welcome-text">
-                            Here's an overview of your
-                            tasks and progress.
-                        </p>
-
-                    </div>
-
-
-                    <div class="welcome-actions">
-
-                        <button
-                            type="button"
-                            class="button primary-button"
-                            onclick="document.getElementById('taskInput').focus()"
-                        >
-                            + Add Task
-                        </button>
-
-                    </div>
-
+                <section class="welcome-section" id="dashboard" aria-labelledby="welcome-title">
+                    <div><p class="eyebrow">PERSONAL DASHBOARD</p><h2 id="welcome-title">Welcome back, Sondre</h2><p class="welcome-text">Here's an overview of your tasks and progress.</p></div>
+                    <div class="welcome-actions"><button type="button" class="button primary-button" id="focusTaskButton">+ Add Task</button></div>
                 </section>
 
-
-                <!-- =================================================
-                     STATISTICS
-                ================================================== -->
-
-                <section
-                    class="stats-grid"
-                    aria-label="Task statistics"
-                >
-
-
-                    <!-- Total -->
-
-                    <article class="stat-card">
-
-                        <div class="stat-card-top">
-
-                            <div class="stat-icon">
-                                ✓
-                            </div>
-
-                            <span class="stat-trend">
-                                All
-                            </span>
-
-                        </div>
-
-                        <p class="stat-label">
-                            Total Tasks
-                        </p>
-
-                        <h3 id="totalTasks">
-                            0
-                        </h3>
-
-                    </article>
-
-
-                    <!-- Active -->
-
-                    <article class="stat-card">
-
-                        <div class="stat-card-top">
-
-                            <div class="stat-icon">
-                                ○
-                            </div>
-
-                            <span class="stat-trend">
-                                Active
-                            </span>
-
-                        </div>
-
-                        <p class="stat-label">
-                            Active Tasks
-                        </p>
-
-                        <h3 id="activeTasks">
-                            0
-                        </h3>
-
-                    </article>
-
-
-                    <!-- Completed -->
-
-                    <article class="stat-card">
-
-                        <div class="stat-card-top">
-
-                            <div class="stat-icon">
-                                ✓
-                            </div>
-
-                            <span class="stat-trend positive">
-                                Done
-                            </span>
-
-                        </div>
-
-                        <p class="stat-label">
-                            Completed
-                        </p>
-
-                        <h3 id="completedTasks">
-                            0
-                        </h3>
-
-                    </article>
-
-
-                    <!-- Progress -->
-
-                    <article class="stat-card">
-
-                        <div class="stat-card-top">
-
-                            <div class="stat-icon">
-                                %
-                            </div>
-
-                            <span class="stat-trend">
-                                Progress
-                            </span>
-
-                        </div>
-
-                        <p class="stat-label">
-                            Completion Rate
-                        </p>
-
-                        <h3 id="progressPercentage">
-                            0%
-                        </h3>
-
-                    </article>
-
+                <section class="stats-grid" aria-label="Task statistics">
+                    <article class="stat-card"><div class="stat-card-top"><div class="stat-icon">✓</div><span class="stat-trend">All</span></div><p class="stat-label">Total Tasks</p><h3 id="totalTasks">0</h3></article>
+                    <article class="stat-card"><div class="stat-card-top"><div class="stat-icon">○</div><span class="stat-trend">Active</span></div><p class="stat-label">Active Tasks</p><h3 id="activeTasks">0</h3></article>
+                    <article class="stat-card"><div class="stat-card-top"><div class="stat-icon">✓</div><span class="stat-trend positive">Done</span></div><p class="stat-label">Completed</p><h3 id="completedTasks">0</h3></article>
+                    <article class="stat-card"><div class="stat-card-top"><div class="stat-icon">%</div><span class="stat-trend">Progress</span></div><p class="stat-label">Completion Rate</p><h3 id="progressPercentage">0%</h3></article>
                 </section>
-
-
-                <!-- =================================================
-                     DASHBOARD GRID
-                ================================================== -->
 
                 <div class="dashboard-grid">
-
-
-                    <!-- =================================================
-                         TASKS
-                    ================================================== -->
-
-                    <section
-                        class="dashboard-card tasks-card"
-                        id="tasks"
-                    >
-
-                        <div class="card-header">
-
-                            <div>
-
-                                <p class="card-eyebrow">
-                                    TASK MANAGEMENT
-                                </p>
-
-                                <h2>
-                                    My Tasks
-                                </h2>
-
-                            </div>
-
-
-                            <span
-                                class="task-count-badge"
-                                id="taskCountBadge"
-                            >
-                                0
-                            </span>
-
-                        </div>
-
-
-                        <!-- Task Form -->
-
-                        <form
-                            class="task-form"
-                            id="taskForm"
-                        >
-
-                            <input
-                                type="text"
-                                id="taskInput"
-                                name="task"
-                                placeholder="What do you need to do?"
-                                autocomplete="off"
-                                maxlength="200"
-                                aria-label="New task"
-                            >
-
-
-                            <button
-                                type="submit"
-                                class="button primary-button"
-                            >
-                                Add Task
-                            </button>
-
-                        </form>
-
-
-                        <!-- Task Toolbar -->
-
+                    <section class="dashboard-card tasks-card" id="tasks" aria-labelledby="tasks-title">
+                        <div class="card-header"><div><p class="card-eyebrow">TASK MANAGEMENT</p><h2 id="tasks-title">My Tasks</h2></div><span class="task-count-badge" id="taskCountBadge">0</span></div>
+                        <form class="task-form" id="taskForm"><input type="text" id="taskInput" name="task" placeholder="What do you need to do?" autocomplete="off" maxlength="200" aria-label="New task" required><button type="submit" class="button primary-button">Add Task</button></form>
                         <div class="task-toolbar">
-
-                            <div
-                                class="task-filters"
-                                role="group"
-                                aria-label="Task filters"
-                            >
-
-                                <button
-                                    type="button"
-                                    class="filter-button active"
-                                    data-filter="all"
-                                >
-                                    All
-
-                                    <span
-                                        id="allCount"
-                                    >
-                                        0
-                                    </span>
-
-                                </button>
-
-
-                                <button
-                                    type="button"
-                                    class="filter-button"
-                                    data-filter="active"
-                                >
-                                    Active
-
-                                    <span
-                                        id="activeCount"
-                                    >
-                                        0
-                                    </span>
-
-                                </button>
-
-
-                                <button
-                                    type="button"
-                                    class="filter-button"
-                                    data-filter="completed"
-                                >
-                                    Completed
-
-                                    <span
-                                        id="completedCount"
-                                    >
-                                        0
-                                    </span>
-
-                                </button>
-
+                            <div class="task-filters" role="group" aria-label="Task filters">
+                                <button type="button" class="filter-button active" data-filter="all" aria-pressed="true">All <span id="allCount">0</span></button>
+                                <button type="button" class="filter-button" data-filter="active" aria-pressed="false">Active <span id="activeCount">0</span></button>
+                                <button type="button" class="filter-button" data-filter="completed" aria-pressed="false">Completed <span id="completedCount">0</span></button>
                             </div>
-
-
-                            <button
-                                type="button"
-                                class="clear-button"
-                                id="clearCompleted"
-                            >
-                                Clear completed
-                            </button>
-
+                            <button type="button" class="clear-button" id="clearCompleted">Clear completed</button>
                         </div>
-
-
-                        <!-- Task List -->
-
-                        <div
-                            class="task-list"
-                            id="taskList"
-                            aria-live="polite"
-                        ></div>
-
-
-                        <!-- Empty State -->
-
-                        <div
-                            class="empty-state"
-                            id="emptyState"
-                        >
-
-                            <div class="empty-icon">
-                                ✓
-                            </div>
-
-                            <h3 id="emptyStateTitle">
-                                No tasks yet
-                            </h3>
-
-                            <p id="emptyStateMessage">
-                                Add your first task
-                                to get started.
-                            </p>
-
-                        </div>
-
+                        <div class="task-list" id="taskList" aria-live="polite" aria-relevant="additions removals"></div>
+                        <div class="empty-state" id="emptyState" hidden><div class="empty-icon" aria-hidden="true">✓</div><h3 id="emptyStateTitle">No tasks yet</h3><p id="emptyStateMessage">Add your first task to get started.</p></div>
                     </section>
 
-
-                    <!-- =================================================
-                         PROGRESS
-                    ================================================== -->
-
-                    <section
-                        class="dashboard-card"
-                        id="progress"
-                    >
-
-                        <div class="card-header">
-
-                            <div>
-
-                                <p class="card-eyebrow">
-                                    OVERVIEW
-                                </p>
-
-                                <h2>
-                                    Progress
-                                </h2>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="progress-container">
-
-                            <div
-                                class="progress-circle"
-                                id="progressCircle"
-                            >
-
-                                <span
-                                    id="progressCirclePercentage"
-                                >
-                                    0%
-                                </span>
-
-                            </div>
-
-
-                            <div class="progress-info">
-
-                                <strong>
-                                    Task completion
-                                </strong>
-
-                                <p id="progressMessage">
-                                    Start by adding
-                                    your first task.
-                                </p>
-
-                            </div>
-
-                        </div>
-
-
-                        <div
-                            class="progress-track"
-                            role="progressbar"
-                            aria-valuemin="0"
-                            aria-valuemax="100"
-                            aria-valuenow="0"
-                            aria-label="Task completion progress"
-                        >
-
-                            <div
-                                class="progress-bar-fill"
-                                id="progressBar"
-                            ></div>
-
-                        </div>
-
+                    <section class="dashboard-card" id="progress" aria-labelledby="progress-title">
+                        <div class="card-header"><div><p class="card-eyebrow">OVERVIEW</p><h2 id="progress-title">Progress</h2></div></div>
+                        <div class="progress-container"><div class="progress-circle" id="progressCircle"><span id="progressCirclePercentage">0%</span></div><div class="progress-info"><strong>Task completion</strong><p id="progressMessage">Start by adding your first task.</p></div></div>
+                        <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Task completion progress"><div class="progress-bar-fill" id="progressBar"></div></div>
                     </section>
 
+                    <section class="dashboard-card" aria-labelledby="upcoming-title"><div class="card-header"><div><p class="card-eyebrow">PLANNING</p><h2 id="upcoming-title">Upcoming</h2></div></div><div class="upcoming-empty"><div class="upcoming-icon" aria-hidden="true">📅</div><div><strong>Nothing scheduled</strong><p>Upcoming items will appear here.</p></div></div></section>
 
-                    <!-- =================================================
-                         UPCOMING
-                    ================================================== -->
+                    <section class="dashboard-card" id="notes" aria-labelledby="notes-title"><div class="card-header"><div><p class="card-eyebrow">WORKSPACE</p><h2 id="notes-title">Quick Notes</h2></div></div><textarea class="notes-input" id="notesInput" placeholder="Write a quick note..." aria-label="Quick notes" maxlength="5000"></textarea><div class="notes-footer"><span>Saved locally</span><span class="saved-indicator" id="savedIndicator">Ready</span></div></section>
 
-                    <section class="dashboard-card">
+                    <section class="dashboard-card" id="goals" aria-labelledby="goals-title"><div class="card-header"><div><p class="card-eyebrow">OBJECTIVES</p><h2 id="goals-title">Goals</h2></div><button type="button" class="small-button" disabled title="Goals are planned for a future stage">+ Add</button></div><div class="goal-placeholder"><span aria-hidden="true">🎯</span><p>Add your goals to track what matters most.</p></div></section>
 
-                        <div class="card-header">
-
-                            <div>
-
-                                <p class="card-eyebrow">
-                                    PLANNING
-                                </p>
-
-                                <h2>
-                                    Upcoming
-                                </h2>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="upcoming-empty">
-
-                            <div class="upcoming-icon">
-                                📅
-                            </div>
-
-                            <div>
-
-                                <strong>
-                                    Nothing scheduled
-                                </strong>
-
-                                <p>
-                                    Upcoming items will
-                                    appear here.
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </section>
-
-
-                    <!-- =================================================
-                         NOTES
-                    ================================================== -->
-
-                    <section
-                        class="dashboard-card"
-                        id="notes"
-                    >
-
-                        <div class="card-header">
-
-                            <div>
-
-                                <p class="card-eyebrow">
-                                    WORKSPACE
-                                </p>
-
-                                <h2>
-                                    Quick Notes
-                                </h2>
-
-                            </div>
-
-                        </div>
-
-
-                        <textarea
-                            class="notes-input"
-                            id="notesInput"
-                            placeholder="Write a quick note..."
-                            aria-label="Quick notes"
-                        ></textarea>
-
-
-                        <div class="notes-footer">
-
-                            <span>
-                                Saved locally
-                            </span>
-
-                            <span
-                                class="saved-indicator"
-                                id="savedIndicator"
-                            >
-                                Ready
-                            </span>
-
-                        </div>
-
-                    </section>
-
-
-                    <!-- =================================================
-                         GOALS
-                    ================================================== -->
-
-                    <section
-                        class="dashboard-card"
-                        id="goals"
-                    >
-
-                        <div class="card-header">
-
-                            <div>
-
-                                <p class="card-eyebrow">
-                                    OBJECTIVES
-                                </p>
-
-                                <h2>
-                                    Goals
-                                </h2>
-
-                            </div>
-
-
-                            <button
-                                type="button"
-                                class="small-button"
-                            >
-                                + Add
-                            </button>
-
-                        </div>
-
-
-                        <div class="goal-placeholder">
-
-                            <span>
-                                🎯
-                            </span>
-
-                            <p>
-                                Add your goals
-                                to track what
-                                matters most.
-                            </p>
-
-                        </div>
-
-                    </section>
-
-
-                    <!-- =================================================
-                         SETTINGS
-                    ================================================== -->
-
-                    <section
-                        class="dashboard-card"
-                        id="settings"
-                    >
-
-                        <div class="card-header">
-
-                            <div>
-
-                                <p class="card-eyebrow">
-                                    SYSTEM
-                                </p>
-
-                                <h2>
-                                    Settings
-                                </h2>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="setting-row">
-
-                            <div>
-
-                                <strong>
-                                    Storage
-                                </strong>
-
-                                <p>
-                                    Tasks are saved
-                                    in your browser.
-                                </p>
-
-                            </div>
-
-                            <span class="status-badge">
-                                Active
-                            </span>
-
-                        </div>
-
-
-                        <div class="setting-row">
-
-                            <div>
-
-                                <strong>
-                                    Version
-                                </strong>
-
-                                <p>
-                                    Personal dashboard
-                                </p>
-
-                            </div>
-
-                            <span class="version-badge">
-                                1.0
-                            </span>
-
-                        </div>
-
-                    </section>
-
+                    <section class="dashboard-card" id="settings" aria-labelledby="settings-title"><div class="card-header"><div><p class="card-eyebrow">SYSTEM</p><h2 id="settings-title">Settings</h2></div></div><div class="setting-row"><div><strong>Storage</strong><p>Tasks and notes are saved in your browser.</p></div><span class="status-badge">Active</span></div><div class="setting-row"><div><strong>Version</strong><p>Personal dashboard</p></div><span class="version-badge">1.1</span></div></section>
                 </div>
-
             </div>
 
-
-            <!-- =================================================
-                 FOOTER
-            ================================================== -->
-
-            <footer class="footer">
-
-                <span>
-                    ©
-                    <span id="currentYear">
-                        2026
-                    </span>
-                    Personal Dashboard
-                </span>
-
-                <span>
-                    Built with HTML, CSS & JavaScript
-                </span>
-
-            </footer>
-
+            <footer class="footer"><span>© <span id="currentYear">2026</span> Personal Dashboard</span><span>Built with HTML, CSS &amp; JavaScript</span></footer>
         </main>
-
     </div>
-
-
-    <!-- =====================================================
-         JAVASCRIPT
-    ====================================================== -->
-
     <script src="script.js"></script>
-
 </body>
-
 </html>
