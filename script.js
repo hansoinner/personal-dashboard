@@ -1,11 +1,12 @@
 /* =========================================================
-   PERSONAL DASHBOARD — STAGE 1
-   State, persistence, task interactions and accessibility
+   PERSONAL DASHBOARD — STAGE 2
+   Task editing, persistence, filtering and accessibility
 ========================================================= */
 
 const STORAGE_KEYS = {
     tasks: "dashboardTasks",
-    notes: "dashboardNotes"
+    notes: "dashboardNotes",
+    filter: "dashboardTaskFilter"
 };
 
 const taskForm = document.getElementById("taskForm");
@@ -42,8 +43,15 @@ const notesInput = document.getElementById("notesInput");
 const savedIndicator = document.getElementById("savedIndicator");
 
 let tasks = loadTasks();
-let currentFilter = "all";
+let currentFilter = loadFilter();
+let editingTaskId = null;
 let notesSaveTimer;
+
+function createId() {
+    return typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+        ? crypto.randomUUID()
+        : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
 
 function loadTasks() {
     try {
@@ -51,12 +59,16 @@ function loadTasks() {
         if (!saved) return [];
         const parsed = JSON.parse(saved);
         if (!Array.isArray(parsed)) return [];
-        return parsed.filter(task => task && typeof task.text === "string").map(task => ({
-            id: task.id ?? crypto.randomUUID?.() ?? `${Date.now()}-${Math.random()}`,
-            text: task.text.trim().slice(0, 200),
-            completed: Boolean(task.completed),
-            createdAt: task.createdAt || new Date().toISOString()
-        })).filter(task => task.text);
+        return parsed
+            .filter(task => task && typeof task.text === "string")
+            .map(task => ({
+                id: task.id ?? createId(),
+                text: task.text.trim().slice(0, 200),
+                completed: Boolean(task.completed),
+                createdAt: task.createdAt || new Date().toISOString(),
+                updatedAt: task.updatedAt || task.createdAt || new Date().toISOString()
+            }))
+            .filter(task => task.text);
     } catch (error) {
         console.error("Could not load tasks:", error);
         return [];
@@ -68,6 +80,23 @@ function saveTasks() {
         localStorage.setItem(STORAGE_KEYS.tasks, JSON.stringify(tasks));
     } catch (error) {
         console.error("Could not save tasks:", error);
+    }
+}
+
+function loadFilter() {
+    try {
+        const saved = localStorage.getItem(STORAGE_KEYS.filter);
+        return ["all", "active", "completed"].includes(saved) ? saved : "all";
+    } catch {
+        return "all";
+    }
+}
+
+function saveFilter() {
+    try {
+        localStorage.setItem(STORAGE_KEYS.filter, currentFilter);
+    } catch (error) {
+        console.error("Could not save filter:", error);
     }
 }
 
@@ -110,28 +139,58 @@ function displayCurrentYear() {
 
 function createTask(text) {
     const cleanText = text.trim().slice(0, 200);
-    if (!cleanText) return;
-    tasks.push({
-        id: crypto.randomUUID?.() ?? `${Date.now()}-${Math.random()}`,
-        text: cleanText,
-        completed: false,
-        createdAt: new Date().toISOString()
-    });
+    if (!cleanText) return false;
+    const now = new Date().toISOString();
+    tasks.push({ id: createId(), text: cleanText, completed: false, createdAt: now, updatedAt: now });
     saveTasks();
     currentFilter = "all";
-    updateFilterButtons();
+    saveFilter();
+    renderTasks();
+    return true;
+}
+
+function updateTask(id, text) {
+    const cleanText = text.trim().slice(0, 200);
+    if (!cleanText) return false;
+    let updated = false;
+    tasks = tasks.map(task => {
+        if (String(task.id) !== String(id)) return task;
+        updated = true;
+        return { ...task, text: cleanText, updatedAt: new Date().toISOString() };
+    });
+    if (!updated) return false;
+    saveTasks();
+    return true;
+}
+
+function startEditingTask(id) {
+    const task = tasks.find(item => String(item.id) === String(id));
+    if (!task) return;
+    editingTaskId = String(task.id);
+    renderTasks();
+}
+
+function cancelEditingTask() {
+    editingTaskId = null;
+    renderTasks();
+}
+
+function finishEditingTask(id, value) {
+    if (!updateTask(id, value)) return;
+    editingTaskId = null;
     renderTasks();
 }
 
 function deleteTask(id) {
     tasks = tasks.filter(task => String(task.id) !== String(id));
+    if (editingTaskId === String(id)) editingTaskId = null;
     saveTasks();
     renderTasks();
 }
 
 function toggleTask(id) {
     tasks = tasks.map(task => String(task.id) === String(id)
-        ? { ...task, completed: !task.completed }
+        ? { ...task, completed: !task.completed, updatedAt: new Date().toISOString() }
         : task
     );
     saveTasks();
@@ -141,6 +200,7 @@ function toggleTask(id) {
 function clearCompletedTasks() {
     if (!tasks.some(task => task.completed)) return;
     tasks = tasks.filter(task => !task.completed);
+    editingTaskId = null;
     saveTasks();
     renderTasks();
 }
@@ -169,13 +229,11 @@ function updateProgress() {
     const total = tasks.length;
     const completed = tasks.filter(task => task.completed).length;
     const percentage = total ? Math.round((completed / total) * 100) : 0;
-
     if (progressBar) progressBar.style.width = `${percentage}%`;
     if (progressPercentage) progressPercentage.textContent = `${percentage}%`;
     if (progressCirclePercentage) progressCirclePercentage.textContent = `${percentage}%`;
     if (progressCircle) progressCircle.style.background = `conic-gradient(var(--primary) ${percentage}%, #e2e8f0 ${percentage}%)`;
     if (progressTrack) progressTrack.setAttribute("aria-valuenow", percentage);
-
     if (!progressMessage) return;
     if (!total) progressMessage.textContent = "Start by adding your first task.";
     else if (percentage === 0) progressMessage.textContent = "You have tasks waiting for you. Let's get started.";
@@ -186,10 +244,8 @@ function updateProgress() {
 
 function updateEmptyState(filteredTasks) {
     if (!emptyState) return;
-    const hasTasks = filteredTasks.length > 0;
-    emptyState.hidden = hasTasks;
-    if (hasTasks) return;
-
+    emptyState.hidden = filteredTasks.length > 0;
+    if (filteredTasks.length) return;
     if (!tasks.length) {
         emptyStateTitle.textContent = "No tasks yet";
         emptyStateMessage.textContent = "Add your first task to get started.";
@@ -213,9 +269,69 @@ function createTaskElement(task) {
     checkbox.setAttribute("aria-label", `${task.completed ? "Mark active" : "Mark completed"}: ${task.text}`);
     checkbox.addEventListener("change", () => toggleTask(task.id));
 
-    const text = document.createElement("span");
-    text.className = "task-text";
-    text.textContent = task.text;
+    const content = document.createElement("div");
+    content.className = "task-content";
+
+    if (editingTaskId === String(task.id)) {
+        const editInput = document.createElement("input");
+        editInput.type = "text";
+        editInput.className = "task-edit-input";
+        editInput.value = task.text;
+        editInput.maxLength = 200;
+        editInput.setAttribute("aria-label", `Edit task: ${task.text}`);
+
+        const editActions = document.createElement("div");
+        editActions.className = "task-edit-actions";
+
+        const saveButton = document.createElement("button");
+        saveButton.type = "button";
+        saveButton.className = "delete-task edit-save";
+        saveButton.textContent = "Save";
+        saveButton.setAttribute("aria-label", `Save task: ${task.text}`);
+        saveButton.addEventListener("click", () => finishEditingTask(task.id, editInput.value));
+
+        const cancelButton = document.createElement("button");
+        cancelButton.type = "button";
+        cancelButton.className = "delete-task edit-cancel";
+        cancelButton.textContent = "Cancel";
+        cancelButton.setAttribute("aria-label", "Cancel editing");
+        cancelButton.addEventListener("click", cancelEditingTask);
+
+        editActions.append(saveButton, cancelButton);
+        content.append(editInput, editActions);
+
+        editInput.addEventListener("keydown", event => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                finishEditingTask(task.id, editInput.value);
+            } else if (event.key === "Escape") {
+                cancelEditingTask();
+            }
+        });
+
+        requestAnimationFrame(() => {
+            editInput.focus();
+            editInput.select();
+        });
+    } else {
+        const text = document.createElement("span");
+        text.className = "task-text";
+        text.textContent = task.text;
+        content.appendChild(text);
+    }
+
+    const actions = document.createElement("div");
+    actions.className = "task-actions";
+
+    if (editingTaskId !== String(task.id)) {
+        const editButton = document.createElement("button");
+        editButton.type = "button";
+        editButton.className = "delete-task";
+        editButton.textContent = "Edit";
+        editButton.setAttribute("aria-label", `Edit task: ${task.text}`);
+        editButton.addEventListener("click", () => startEditingTask(task.id));
+        actions.appendChild(editButton);
+    }
 
     const deleteButton = document.createElement("button");
     deleteButton.type = "button";
@@ -223,8 +339,9 @@ function createTaskElement(task) {
     deleteButton.textContent = "×";
     deleteButton.setAttribute("aria-label", `Delete task: ${task.text}`);
     deleteButton.addEventListener("click", () => deleteTask(task.id));
+    actions.appendChild(deleteButton);
 
-    article.append(checkbox, text, deleteButton);
+    article.append(checkbox, content, actions);
     return article;
 }
 
@@ -248,7 +365,9 @@ function renderTasks() {
 
 function setActiveFilter(filter) {
     if (!["all", "active", "completed"].includes(filter)) return;
+    editingTaskId = null;
     currentFilter = filter;
+    saveFilter();
     updateFilterButtons();
     renderTasks();
 }
@@ -285,32 +404,26 @@ if (taskForm) {
             taskInput.focus();
             return;
         }
-        createTask(text);
-        taskInput.value = "";
-        taskInput.focus();
+        if (createTask(text)) {
+            taskInput.value = "";
+            taskInput.focus();
+        }
     });
 }
 
-filterButtons.forEach(button => {
-    button.addEventListener("click", () => setActiveFilter(button.dataset.filter));
-});
-
+filterButtons.forEach(button => button.addEventListener("click", () => setActiveFilter(button.dataset.filter)));
 clearCompletedButton?.addEventListener("click", clearCompletedTasks);
 menuButton?.addEventListener("click", openSidebar);
 sidebarClose?.addEventListener("click", closeSidebar);
 sidebarOverlay?.addEventListener("click", closeSidebar);
 focusTaskButton?.addEventListener("click", focusTaskInput);
-
-navLinks.forEach(link => {
-    link.addEventListener("click", () => {
-        navLinks.forEach(item => item.classList.remove("active"));
-        link.classList.add("active");
-        navLinks.forEach(item => item.removeAttribute("aria-current"));
-        link.setAttribute("aria-current", "page");
-        closeSidebar();
-    });
-});
-
+navLinks.forEach(link => link.addEventListener("click", () => {
+    navLinks.forEach(item => item.classList.remove("active"));
+    link.classList.add("active");
+    navLinks.forEach(item => item.removeAttribute("aria-current"));
+    link.setAttribute("aria-current", "page");
+    closeSidebar();
+}));
 notesInput?.addEventListener("input", saveNotes);
 
 document.addEventListener("keydown", event => {
