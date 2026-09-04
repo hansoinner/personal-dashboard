@@ -1,6 +1,6 @@
 /* =========================================================
-   PERSONAL DASHBOARD — STAGE 2
-   Task editing, persistence, filtering and accessibility
+   PERSONAL DASHBOARD — STAGE 3
+   Data management, export/reset, task editing and persistence
 ========================================================= */
 
 const STORAGE_KEYS = {
@@ -41,6 +41,8 @@ const sidebarClose = document.querySelector(".sidebar-close");
 const focusTaskButton = document.getElementById("focusTaskButton");
 const notesInput = document.getElementById("notesInput");
 const savedIndicator = document.getElementById("savedIndicator");
+const exportDataButton = document.getElementById("exportDataButton");
+const resetDataButton = document.getElementById("resetDataButton");
 
 let tasks = loadTasks();
 let currentFilter = loadFilter();
@@ -59,16 +61,13 @@ function loadTasks() {
         if (!saved) return [];
         const parsed = JSON.parse(saved);
         if (!Array.isArray(parsed)) return [];
-        return parsed
-            .filter(task => task && typeof task.text === "string")
-            .map(task => ({
-                id: task.id ?? createId(),
-                text: task.text.trim().slice(0, 200),
-                completed: Boolean(task.completed),
-                createdAt: task.createdAt || new Date().toISOString(),
-                updatedAt: task.updatedAt || task.createdAt || new Date().toISOString()
-            }))
-            .filter(task => task.text);
+        return parsed.filter(task => task && typeof task.text === "string").map(task => ({
+            id: task.id ?? createId(),
+            text: task.text.trim().slice(0, 200),
+            completed: Boolean(task.completed),
+            createdAt: task.createdAt || new Date().toISOString(),
+            updatedAt: task.updatedAt || task.createdAt || new Date().toISOString()
+        })).filter(task => task.text);
     } catch (error) {
         console.error("Could not load tasks:", error);
         return [];
@@ -78,8 +77,11 @@ function loadTasks() {
 function saveTasks() {
     try {
         localStorage.setItem(STORAGE_KEYS.tasks, JSON.stringify(tasks));
+        return true;
     } catch (error) {
         console.error("Could not save tasks:", error);
+        showToast("Could not save your tasks.", "error");
+        return false;
     }
 }
 
@@ -116,9 +118,7 @@ function saveNotes() {
         if (savedIndicator) {
             savedIndicator.textContent = "Saved";
             window.clearTimeout(notesSaveTimer);
-            notesSaveTimer = window.setTimeout(() => {
-                savedIndicator.textContent = "Ready";
-            }, 1200);
+            notesSaveTimer = window.setTimeout(() => { savedIndicator.textContent = "Ready"; }, 1200);
         }
     } catch (error) {
         console.error("Could not save notes:", error);
@@ -146,6 +146,7 @@ function createTask(text) {
     currentFilter = "all";
     saveFilter();
     renderTasks();
+    showToast("Task added.");
     return true;
 }
 
@@ -160,6 +161,7 @@ function updateTask(id, text) {
     });
     if (!updated) return false;
     saveTasks();
+    showToast("Task updated.");
     return true;
 }
 
@@ -176,33 +178,46 @@ function cancelEditingTask() {
 }
 
 function finishEditingTask(id, value) {
-    if (!updateTask(id, value)) return;
+    if (!updateTask(id, value)) {
+        showToast("Task text cannot be empty.", "error");
+        return;
+    }
     editingTaskId = null;
     renderTasks();
 }
 
 function deleteTask(id) {
+    const exists = tasks.some(task => String(task.id) === String(id));
     tasks = tasks.filter(task => String(task.id) !== String(id));
     if (editingTaskId === String(id)) editingTaskId = null;
     saveTasks();
     renderTasks();
+    if (exists) showToast("Task deleted.");
 }
 
 function toggleTask(id) {
-    tasks = tasks.map(task => String(task.id) === String(id)
-        ? { ...task, completed: !task.completed, updatedAt: new Date().toISOString() }
-        : task
-    );
+    let completed = false;
+    tasks = tasks.map(task => {
+        if (String(task.id) !== String(id)) return task;
+        completed = !task.completed;
+        return { ...task, completed, updatedAt: new Date().toISOString() };
+    });
     saveTasks();
     renderTasks();
+    showToast(completed ? "Task completed." : "Task marked active.");
 }
 
 function clearCompletedTasks() {
-    if (!tasks.some(task => task.completed)) return;
+    const count = tasks.filter(task => task.completed).length;
+    if (!count) {
+        showToast("There are no completed tasks to clear.");
+        return;
+    }
     tasks = tasks.filter(task => !task.completed);
     editingTaskId = null;
     saveTasks();
     renderTasks();
+    showToast(`${count} completed ${count === 1 ? "task" : "tasks"} cleared.`);
 }
 
 function getFilteredTasks() {
@@ -309,10 +324,7 @@ function createTaskElement(task) {
             }
         });
 
-        requestAnimationFrame(() => {
-            editInput.focus();
-            editInput.select();
-        });
+        requestAnimationFrame(() => { editInput.focus(); editInput.select(); });
     } else {
         const text = document.createElement("span");
         text.className = "task-text";
@@ -395,19 +407,84 @@ function focusTaskInput() {
     taskInput.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
+function showToast(message, type = "success") {
+    let toast = document.getElementById("dashboardToast");
+    if (!toast) {
+        toast = document.createElement("div");
+        toast.id = "dashboardToast";
+        toast.setAttribute("role", "status");
+        toast.setAttribute("aria-live", "polite");
+        Object.assign(toast.style, {
+            position: "fixed", right: "20px", bottom: "20px", zIndex: "9999",
+            maxWidth: "min(360px, calc(100vw - 40px))", padding: "12px 16px",
+            borderRadius: "10px", color: "#fff", fontSize: "14px", fontWeight: "700",
+            boxShadow: "0 12px 30px rgba(15,23,42,.18)", opacity: "0",
+            transform: "translateY(8px)", transition: "opacity .2s ease, transform .2s ease"
+        });
+        document.body.appendChild(toast);
+    }
+    toast.textContent = message;
+    toast.style.background = type === "error" ? "#dc2626" : "#16a34a";
+    toast.style.opacity = "1";
+    toast.style.transform = "translateY(0)";
+    window.clearTimeout(showToast.timer);
+    showToast.timer = window.setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(8px)";
+    }, 2200);
+}
+
+function exportData() {
+    const data = {
+        exportedAt: new Date().toISOString(),
+        version: "3.0",
+        tasks,
+        notes: notesInput?.value || "",
+        filter: currentFilter
+    };
+
+    try {
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `personal-dashboard-${new Date().toISOString().slice(0, 10)}.json`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+        showToast("Dashboard data exported.");
+    } catch (error) {
+        console.error("Could not export data:", error);
+        showToast("Could not export dashboard data.", "error");
+    }
+}
+
+function resetDashboardData() {
+    const confirmed = window.confirm("Reset all dashboard data? This will permanently remove your tasks, notes and saved filter from this browser.");
+    if (!confirmed) return;
+
+    try {
+        Object.values(STORAGE_KEYS).forEach(key => localStorage.removeItem(key));
+        tasks = [];
+        currentFilter = "all";
+        editingTaskId = null;
+        if (notesInput) notesInput.value = "";
+        renderTasks();
+        showToast("Dashboard data has been reset.");
+    } catch (error) {
+        console.error("Could not reset dashboard data:", error);
+        showToast("Could not reset dashboard data.", "error");
+    }
+}
+
 if (taskForm) {
     taskForm.addEventListener("submit", event => {
         event.preventDefault();
         if (!taskInput) return;
         const text = taskInput.value.trim();
-        if (!text) {
-            taskInput.focus();
-            return;
-        }
-        if (createTask(text)) {
-            taskInput.value = "";
-            taskInput.focus();
-        }
+        if (!text) { taskInput.focus(); return; }
+        if (createTask(text)) { taskInput.value = ""; taskInput.focus(); }
     });
 }
 
@@ -417,6 +494,9 @@ menuButton?.addEventListener("click", openSidebar);
 sidebarClose?.addEventListener("click", closeSidebar);
 sidebarOverlay?.addEventListener("click", closeSidebar);
 focusTaskButton?.addEventListener("click", focusTaskInput);
+exportDataButton?.addEventListener("click", exportData);
+resetDataButton?.addEventListener("click", resetDashboardData);
+
 navLinks.forEach(link => link.addEventListener("click", () => {
     navLinks.forEach(item => item.classList.remove("active"));
     link.classList.add("active");
@@ -424,6 +504,7 @@ navLinks.forEach(link => link.addEventListener("click", () => {
     link.setAttribute("aria-current", "page");
     closeSidebar();
 }));
+
 notesInput?.addEventListener("input", saveNotes);
 
 document.addEventListener("keydown", event => {
