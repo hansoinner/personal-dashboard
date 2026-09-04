@@ -11,16 +11,10 @@
     <div class="app">
         <aside class="sidebar" id="sidebar" aria-label="Main navigation">
             <div class="sidebar-header">
-                <a href="#dashboard" class="sidebar-logo" aria-label="Dashboard home">
-                    <span class="logo-mark" aria-hidden="true">D</span>
-                    <span class="logo-text">Dashboard</span>
-                </a>
+                <a href="#dashboard" class="sidebar-logo" aria-label="Dashboard home"><span class="logo-mark" aria-hidden="true">D</span><span class="logo-text">Dashboard</span></a>
                 <button type="button" class="sidebar-close" aria-label="Close navigation">×</button>
             </div>
-            <div class="sidebar-user">
-                <div class="user-avatar" aria-hidden="true">SG</div>
-                <div class="user-info"><strong>Sondre</strong><span>Personal Dashboard</span></div>
-            </div>
+            <div class="sidebar-user"><div class="user-avatar" aria-hidden="true">SG</div><div class="user-info"><strong>Sondre</strong><span>Personal Dashboard</span></div></div>
             <nav class="sidebar-nav" aria-label="Main navigation">
                 <p class="nav-heading">MAIN</p>
                 <a href="#dashboard" class="sidebar-link active" aria-current="page"><span class="sidebar-icon" aria-hidden="true">🏠</span><span>Dashboard</span></a>
@@ -31,28 +25,16 @@
                 <a href="#goals" class="sidebar-link"><span class="sidebar-icon" aria-hidden="true">🎯</span><span>Goals</span></a>
                 <a href="#settings" class="sidebar-link"><span class="sidebar-icon" aria-hidden="true">⚙</span><span>Settings</span></a>
             </nav>
-            <div class="sidebar-bottom">
-                <div class="sidebar-tip"><div class="tip-icon" aria-hidden="true">💡</div><div><strong>Quick tip</strong><p>Press "/" to quickly add a task.</p></div></div>
-            </div>
+            <div class="sidebar-bottom"><div class="sidebar-tip"><div class="tip-icon" aria-hidden="true">💡</div><div><strong>Quick tip</strong><p>Press "/" to quickly add a task.</p></div></div></div>
         </aside>
         <div class="sidebar-overlay" aria-hidden="true"></div>
         <main class="main-area">
             <header class="topbar">
-                <div class="topbar-left">
-                    <button type="button" class="menu-button" aria-label="Open navigation" aria-controls="sidebar" aria-expanded="false">☰</button>
-                    <div><span class="topbar-label" id="currentDate">TODAY</span><h1 class="topbar-title">Personal Dashboard</h1></div>
-                </div>
-                <div class="topbar-actions">
-                    <button type="button" class="topbar-button" aria-label="Notifications">🔔</button>
-                    <button type="button" class="topbar-button" aria-label="Search">🔍</button>
-                    <div class="topbar-avatar" aria-label="Signed in as Sondre">SG</div>
-                </div>
+                <div class="topbar-left"><button type="button" class="menu-button" aria-label="Open navigation" aria-controls="sidebar" aria-expanded="false">☰</button><div><span class="topbar-label" id="currentDate">TODAY</span><h1 class="topbar-title">Personal Dashboard</h1></div></div>
+                <div class="topbar-actions"><button type="button" class="topbar-button" aria-label="Notifications">🔔</button><button type="button" class="topbar-button" aria-label="Search">🔍</button><div class="topbar-avatar" aria-label="Signed in as Sondre">SG</div></div>
             </header>
             <div class="main-content">
-                <section class="welcome-section" id="dashboard" aria-labelledby="welcome-title">
-                    <div><p class="eyebrow">PERSONAL DASHBOARD</p><h2 id="welcome-title">Welcome back, Sondre</h2><p class="welcome-text">Here's an overview of your tasks and progress.</p></div>
-                    <div class="welcome-actions"><button type="button" class="button primary-button" id="focusTaskButton">+ Add Task</button></div>
-                </section>
+                <section class="welcome-section" id="dashboard" aria-labelledby="welcome-title"><div><p class="eyebrow">PERSONAL DASHBOARD</p><h2 id="welcome-title">Welcome back, Sondre</h2><p class="welcome-text">Here's an overview of your tasks and progress.</p></div><div class="welcome-actions"><button type="button" class="button primary-button" id="focusTaskButton">+ Add Task</button></div></section>
                 <section class="stats-grid" aria-label="Task statistics">
                     <article class="stat-card"><div class="stat-card-top"><div class="stat-icon">✓</div><span class="stat-trend">All</span></div><p class="stat-label">Total Tasks</p><h3 id="totalTasks">0</h3></article>
                     <article class="stat-card"><div class="stat-card-top"><div class="stat-icon">○</div><span class="stat-trend">Active</span></div><p class="stat-label">Active Tasks</p><h3 id="activeTasks">0</h3></article>
@@ -62,33 +44,21 @@
                 <div class="dashboard-grid">
                     <section class="dashboard-card tasks-card" id="tasks" aria-labelledby="tasks-title">
                         <div class="card-header"><div><p class="card-eyebrow">TASK MANAGEMENT</p><h2 id="tasks-title">My Tasks</h2></div><span class="task-count-badge" id="taskCountBadge">0</span></div>
-                        <form class="task-form" id="taskForm"><input type="text" id="taskInput" name="task" placeholder="What do you need to do?" autocomplete="off" maxlength="200" aria-label="New task" required><button type="submit" class="button primary-button" id="taskSubmitButton">Add Task</button></form>
-                        <div class="task-toolbar">
-                            <div class="task-filters" role="group" aria-label="Task filters">
-                                <button type="button" class="filter-button active" data-filter="all" aria-pressed="true">All <span id="allCount">0</span></button>
-                                <button type="button" class="filter-button" data-filter="active" aria-pressed="false">Active <span id="activeCount">0</span></button>
-                                <button type="button" class="filter-button" data-filter="completed" aria-pressed="false">Completed <span id="completedCount">0</span></button>
-                            </div>
-                            <button type="button" class="clear-button" id="clearCompleted">Clear completed</button>
-                        </div>
+                        <form class="task-form" id="taskForm">
+                            <input type="text" id="taskInput" name="task" placeholder="What do you need to do?" autocomplete="off" maxlength="200" aria-label="New task" required>
+                            <select id="taskPriority" name="priority" aria-label="Task priority"><option value="low">Low priority</option><option value="medium" selected>Medium priority</option><option value="high">High priority</option></select>
+                            <input type="date" id="taskDueDate" name="dueDate" aria-label="Task due date">
+                            <button type="submit" class="button primary-button" id="taskSubmitButton">Add Task</button>
+                        </form>
+                        <div class="task-toolbar"><div class="task-filters" role="group" aria-label="Task filters"><button type="button" class="filter-button active" data-filter="all" aria-pressed="true">All <span id="allCount">0</span></button><button type="button" class="filter-button" data-filter="active" aria-pressed="false">Active <span id="activeCount">0</span></button><button type="button" class="filter-button" data-filter="completed" aria-pressed="false">Completed <span id="completedCount">0</span></button></div><button type="button" class="clear-button" id="clearCompleted">Clear completed</button></div>
                         <div class="task-list" id="taskList" aria-live="polite" aria-relevant="additions removals"></div>
                         <div class="empty-state" id="emptyState" hidden><div class="empty-icon" aria-hidden="true">✓</div><h3 id="emptyStateTitle">No tasks yet</h3><p id="emptyStateMessage">Add your first task to get started.</p></div>
                     </section>
-                    <section class="dashboard-card" id="progress" aria-labelledby="progress-title">
-                        <div class="card-header"><div><p class="card-eyebrow">OVERVIEW</p><h2 id="progress-title">Progress</h2></div></div>
-                        <div class="progress-container"><div class="progress-circle" id="progressCircle"><span id="progressCirclePercentage">0%</span></div><div class="progress-info"><strong>Task completion</strong><p id="progressMessage">Start by adding your first task.</p></div></div>
-                        <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Task completion progress"><div class="progress-bar-fill" id="progressBar"></div></div>
-                    </section>
-                    <section class="dashboard-card" aria-labelledby="upcoming-title"><div class="card-header"><div><p class="card-eyebrow">PLANNING</p><h2 id="upcoming-title">Upcoming</h2></div></div><div class="upcoming-empty"><div class="upcoming-icon" aria-hidden="true">📅</div><div><strong>Nothing scheduled</strong><p>Upcoming items will appear here.</p></div></div></section>
+                    <section class="dashboard-card" id="progress" aria-labelledby="progress-title"><div class="card-header"><div><p class="card-eyebrow">OVERVIEW</p><h2 id="progress-title">Progress</h2></div></div><div class="progress-container"><div class="progress-circle" id="progressCircle"><span id="progressCirclePercentage">0%</span></div><div class="progress-info"><strong>Task completion</strong><p id="progressMessage">Start by adding your first task.</p></div></div><div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Task completion progress"><div class="progress-bar-fill" id="progressBar"></div></div></section>
+                    <section class="dashboard-card" aria-labelledby="upcoming-title"><div class="card-header"><div><p class="card-eyebrow">PLANNING</p><h2 id="upcoming-title">Upcoming</h2></div></div><div class="upcoming-empty" id="upcomingList"><div class="upcoming-icon" aria-hidden="true">📅</div><div><strong>Nothing scheduled</strong><p>Tasks with due dates will appear here.</p></div></div></section>
                     <section class="dashboard-card" id="notes" aria-labelledby="notes-title"><div class="card-header"><div><p class="card-eyebrow">WORKSPACE</p><h2 id="notes-title">Quick Notes</h2></div></div><textarea class="notes-input" id="notesInput" placeholder="Write a quick note..." aria-label="Quick notes" maxlength="5000"></textarea><div class="notes-footer"><span>Saved locally</span><span class="saved-indicator" id="savedIndicator">Ready</span></div></section>
-                    <section class="dashboard-card" id="goals" aria-labelledby="goals-title"><div class="card-header"><div><p class="card-eyebrow">OBJECTIVES</p><h2 id="goals-title">Goals</h2></div><button type="button" class="small-button" disabled title="Goals are planned for a future stage">+ Add</button></div><div class="goal-placeholder"><span aria-hidden="true">🎯</span><p>Add your goals to track what matters most.</p></div></section>
-                    <section class="dashboard-card" id="settings" aria-labelledby="settings-title">
-                        <div class="card-header"><div><p class="card-eyebrow">SYSTEM</p><h2 id="settings-title">Settings</h2></div></div>
-                        <div class="setting-row"><div><strong>Storage</strong><p>Tasks and notes are saved in your browser.</p></div><span class="status-badge">Active</span></div>
-                        <div class="setting-row"><div><strong>Version</strong><p>Personal dashboard</p></div><span class="version-badge">3.0</span></div>
-                        <div class="setting-row"><div><strong>Export data</strong><p>Download your tasks and notes as JSON.</p></div><button type="button" class="small-button" id="exportDataButton">Export</button></div>
-                        <div class="setting-row"><div><strong>Reset data</strong><p>Remove all locally saved tasks, notes and preferences.</p></div><button type="button" class="small-button" id="resetDataButton">Reset</button></div>
-                    </section>
+                    <section class="dashboard-card" id="goals" aria-labelledby="goals-title"><div class="card-header"><div><p class="card-eyebrow">OBJECTIVES</p><h2 id="goals-title">Goals</h2></div><button type="button" class="small-button" disabled>+ Add</button></div><div class="goal-placeholder"><span aria-hidden="true">🎯</span><p>Add your goals to track what matters most.</p></div></section>
+                    <section class="dashboard-card" id="settings" aria-labelledby="settings-title"><div class="card-header"><div><p class="card-eyebrow">SYSTEM</p><h2 id="settings-title">Settings</h2></div></div><div class="setting-row"><div><strong>Storage</strong><p>Tasks and notes are saved in your browser.</p></div><span class="status-badge">Active</span></div><div class="setting-row"><div><strong>Version</strong><p>Personal dashboard</p></div><span class="version-badge">3.0</span></div></section>
                 </div>
             </div>
             <footer class="footer"><span>© <span id="currentYear">2026</span> Personal Dashboard</span><span>Built with HTML, CSS &amp; JavaScript</span></footer>
